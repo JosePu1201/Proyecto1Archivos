@@ -1,1 +1,3 @@
-Diagrama de chen : https://app.diagrams.net/#G1D91QaUzUMegWAGckdshYRFDCZ2kF8cNf
+Diagrama de chen : 
+                https://drive.google.com/file/d/1D91QaUzUMegWAGckdshYRFDCZ2kF8cNf/view?usp=sharing
+                
