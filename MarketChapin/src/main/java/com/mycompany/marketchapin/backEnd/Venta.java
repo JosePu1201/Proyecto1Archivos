@@ -89,7 +89,7 @@ public class Venta extends javax.swing.JPanel {
 
         jLabel4.setText("NIT:");
 
-        jLabel5.setText("NOMBRE:");
+        jLabel5.setText("Nombre:");
 
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
