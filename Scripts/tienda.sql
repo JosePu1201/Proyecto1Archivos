@@ -1,5 +1,5 @@
 CREATE DATABASE chapinMarket;
-\c chapinMarket;
+\c chapinMarket
 CREATE SCHEMA admin;
 CREATE SCHEMA prodG;
 CREATE SCHEMA factura;
@@ -57,7 +57,7 @@ CREATE TABLE admin.Empleado(
     Contrasenea VARCHAR(20) NOT NULL,
     Puesto VARCHAR(10) NOT NULL,
     codigoSucursal VARCHAR (3) NOT NULL,
-    PRIMARY KEY (Usuario,Contrasenea),
+    PRIMARY KEY (Usuario),
     FOREIGN KEY (codigoSucursal) REFERENCES admin.Sucursal(Codigo)
 );
 -- Creacion en schema inventaroG
@@ -106,3 +106,129 @@ CREATE TABLE estante.Producto_En_Estanteria(
     FOREIGN KEY (idEstante) REFERENCES estante.Estanteria(idEstante),
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo) 
 );
+-- agregando tablas al schema factura
+CREATE TABLE factura.ListaProd(
+    codigoLista VARCHAR(10) NOT NULL,
+    Precio DECIMAL(10, 2) NOT NULL,
+    cantidadVendiad INT NOT NULL,
+    codigoProducto VARCHAR(10) NOT NULL,
+    PRIMARY KEY (codigoLista),
+    FOREIGN KEY (codigoProducto) REFERENCES prodG.Producto(Codigo)
+ );
+
+CREATE TABLE factura.Venta(
+    numeroFactura VARCHAR(10) NOT NULL,
+    Nombre VARCHAR(50) NOT NULL,
+    Nit VARCHAR(10) NOT NULL,
+    Fecha DATE NOT NULL,
+    codigoEmpleado VARCHAR(5) NOT NULL,
+    TotalSinDescuento DECIMAL(10,2) NOT NULL,
+    TotalConDescuento DECIMAL(10,2) NOT NULL,
+    codigoLista VARCHAR(10) NOT NULL,
+    PRIMARY KEY (numeroFactura),
+    FOREIGN KEY (Nit) REFERENCES clientes.Cliente(Nit),
+    FOREIGN KEY (codigoEmpleado) REFERENCES admin.Empleado(Usuario),
+    FOREIGN KEY (codigoLista) REFERENCES factura.ListaProd (codigoLista)
+);
+
+
+
+
+
+
+-- Generar 150 productos aleatorios
+DO $$ 
+DECLARE 
+    nombres TEXT[] := ARRAY[
+        'Jabón', 'Detergente', 'Pasta de Dientes', 'Azúcar', 'Sal', 
+        'Aceite de Oliva', 'Arroz', 'Leche', 'Huevos', 'Cereal',
+        'Pan', 'Café', 'Té', 'Galletas', 'Cerveza',
+        'Papel Higiénico', 'Champú', 'Acondicionador', 'Pañales',
+        'Queso', 'Yogur', 'Papel Toalla', 'Carne de Res', 'Pollo',
+        'Pescado', 'Frutas', 'Verduras', 'Refresco', 'Agua',
+        'Chocolate', 'Helado', 'Sopa en Lata', 'Mantequilla', 'Vino',
+        'Jugo de Naranja', 'Cepillo de Dientes', 'Pasta de Dientes', 'Lavadora', 'Secadora',
+        'Laptop', 'Teléfono Móvil', 'Tableta', 'Impresora', 'Televisor',
+        'Refrigerador', 'Congelador', 'Microondas', 'Tostadora', 'Batidora',
+        'Silla', 'Mesa', 'Sofá', 'Cama', 'Lámpara',
+        'Silla de Oficina', 'Escritorio', 'Librero', 'Cajonera', 'Mesa de Centro',
+        'Cepillo para el Pelo', 'Secador de Pelo', 'Plancha de Ropa', 'Aspiradora', 'Fregadero',
+        'Tenedor', 'Cuchillo', 'Cuchara', 'Cucharita', 'Taza',
+        'Plato', 'Vaso', 'Olla', 'Sartén', 'Cazuela',
+        'Máquina de Coser', 'Hilo', 'Aguja', 'Tijeras', 'Alicate',
+        'Martillo', 'Destornillador', 'Llave Inglesa', 'Sierra', 'Clavos',
+        'Pala', 'Rastrillo', 'Manguera de Jardín', 'Cubo', 'Escoba',
+        'Reloj de Pared', 'Despertador', 'Radio', 'Altavoces', 'Cámara Digital',
+        'Gorra', 'Bufanda', 'Guantes', 'Gafas de Sol', 'Paraguas',
+        'Zapatos', 'Bolsa de Mano', 'Sombrero', 'Collar', 'Pulsera',
+        'Lapicero', 'Cuaderno', 'Calculadora', 'Libro', 'Revista',
+        'Pelota', 'Raqueta de Tenis', 'Bicicleta', 'Patines', 'Balón de Fútbol',
+        'Guitarra', 'Batería', 'Violín', 'Flauta', 'Teclado',
+        'Dron', 'Binoculares', 'Telescopio', 'Candado', 'Llave',
+        'Mascarilla Facial', 'Crema Hidratante', 'Protector Solar', 'Loción Corporal', 'Perfume',
+        'DVD', 'Blu-ray', 'Videojuego', 'Consola de Juegos', 'Tarjeta de Regalo'
+    ];
+    schema_name TEXT := 'prodG'; -- Nombre de tu esquema
+    nombre TEXT;
+    precio NUMERIC;
+    codigo TEXT;
+BEGIN
+    FOR i IN 1..150 LOOP
+        -- Obtener el nombre en orden secuencial
+        nombre := nombres[i];
+
+        -- Generar un precio aleatorio entre 1.00 y 100.00
+        precio := (random() * 99) + 1;
+
+        -- Generar un código único de 10 caracteres
+        codigo := substring(md5(random()::text), 1, 10);
+
+        -- Insertar el producto en la tabla
+        IF nombre IS NOT NULL THEN
+            EXECUTE 'INSERT INTO ' || schema_name || '.Producto (Nombre, Codigo, Precio) VALUES ($1, $2, $3)'
+            USING nombre, codigo, precio;
+        END IF;
+    END LOOP;
+END $$;
+
+
+-- Insertar la primera sucursal
+INSERT INTO admin.Sucursal (Codigo, Nombre, Ingresos, Ubicacion, cantProducto)
+VALUES ('001', 'Sucursal Central', 0.00, 'Centro', 100);
+
+-- Insertar la segunda sucursal
+INSERT INTO admin.Sucursal (Codigo, Nombre, Ingresos, Ubicacion, cantProducto)
+VALUES ('002', 'Sucursal Norte', 0.00, 'Norte', 75);
+
+-- Insertar la tercera sucursal
+INSERT INTO admin.Sucursal (Codigo, Nombre, Ingresos, Ubicacion, cantProducto)
+VALUES ('003', 'Sucursal Sur', 0.00, 'Sur', 75);
+
+-- Insertar 11 empleados en la sucursal 001
+INSERT INTO admin.Empleado (Usuario, Contrasenea, Puesto, codigoSucursal)
+VALUES
+    ('cajero1', 'cajero1', 'Cajero', '001'),
+    ('cajero2', 'cajero2', 'Cajero', '001'),
+    ('cajero3', 'cajero3', 'Cajero', '001'),
+    ('cajero4', 'cajero4', 'Cajero', '001'),
+    ('cajero5', 'cajero5', 'Cajero', '001'),
+    ('cajero6', 'cajero6', 'Cajero', '001'),
+    ('inventario1', 'inventario1', 'Inventario', '001'),
+    ('inventario2', 'invnetario2', 'Inventario', '001'),
+    ('inventario3', 'inventario3', 'Inventario', '001'),
+    ('inventario4', 'inventario4', 'Inventario', '001'),
+    ('bodega1', 'bodega1', 'Bodega', '001');
+
+INSERT INTO admin.Empleado (Usuario, Contrasenea, Puesto, codigoSucursal)
+VALUES
+    ('cajero7', 'cajero7', 'Cajero', '002'),
+    ('cajero8', 'cajero8', 'Cajero', '002'),
+    ('cajero9', 'cajero9', 'Cajero', '002'),
+    ('cajero10', 'cajero10', 'Cajero', '002'),
+    ('cajero11', 'cajero11', 'Cajero', '002'),
+    ('inventario5', 'inventario5', 'Inventario', '002'),
+    ('inventario6', 'invnetario6', 'Inventario', '002'),
+    ('inventario7', 'inventario7', 'Inventario', '002'),
+    ('inventario8', 'inventario8', 'Inventario', '002'),
+    ('cajero12', 'cajero12', 'Cajero', '002'),
+    ('bodega3', 'bodega3', 'Bodega', '002');

@@ -4,21 +4,30 @@
  */
 package com.mycompany.marketchapin.backEnd;
 
+import com.mycompany.marketchapin.controladores.CambioFrame;
 import java.awt.Panel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author jose
  */
 public class Bodega extends javax.swing.JPanel {
-
+    Frame principal;
     /**
      * Creates new form Bodega
      */
-    public Bodega() {
+    public Bodega(Frame prinicpal) {
+        this.principal = prinicpal;
         initComponents();
+        conexion();
         jPanel1.setVisible(false);
         jPanel2.setVisible(false);
+        productos.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -50,7 +59,7 @@ public class Bodega extends javax.swing.JPanel {
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        productos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
@@ -130,6 +139,11 @@ public class Bodega extends javax.swing.JPanel {
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Cerrar cesion");
         jButton5.setOpaque(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -239,10 +253,10 @@ public class Bodega extends javax.swing.JPanel {
                 .addComponent(jButton4))
         );
 
-        jTable2.setBackground(new java.awt.Color(255, 255, 255));
-        jTable2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jTable2.setForeground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        productos.setBackground(new java.awt.Color(255, 255, 255));
+        productos.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        productos.setForeground(new java.awt.Color(0, 0, 0));
+        productos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -258,8 +272,7 @@ public class Bodega extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jTable2.setOpaque(false);
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(productos);
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -342,6 +355,10 @@ public class Bodega extends javax.swing.JPanel {
         jPanel1.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        CambioFrame cambio = new CambioFrame(principal, new Login(principal));
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;
@@ -366,6 +383,46 @@ public class Bodega extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable productos;
     // End of variables declaration//GEN-END:variables
+ private void conexion() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String jdbcURL = "jdbc:postgresql://localhost:5432/chapinmarket"; // Cambia la URL según tu configuración
+        String username = "postgres";
+        String password = "jose";
+
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Codigo");
+
+        productos.setModel(modelo);
+
+        try {
+            // Establece la conexión
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+
+            // Crea una declaración SQL
+            Statement statement = (Statement) connection.createStatement();
+
+            // Ejecuta la consulta SQL
+            String sqlQuery = "SELECT * FROM prodG.Producto";
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            // Procesa y muestra los resultados
+            while (resultSet.next()) {
+                String nombre = resultSet.getString("Nombre");
+                String codigo = resultSet.getString("Codigo");
+                double precio = resultSet.getDouble("Precio");
+                //System.out.println("Nombre: " + nombre + ", Código: " + codigo + ", Precio: " + precio);
+                String fila[] = {nombre, codigo};
+                modelo.addRow(fila);
+            }
+
+            // Cierra la conexión y recursos
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
