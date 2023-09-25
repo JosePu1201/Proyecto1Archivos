@@ -4,6 +4,7 @@
  */
 package com.mycompany.marketchapin.backEnd;
 
+import com.mycompany.marketchapin.Conexiones.CLogin;
 import com.mycompany.marketchapin.controladores.CambioFrame;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,6 +46,8 @@ public class Login extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
@@ -95,28 +98,41 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Usuario:");
 
+        jLabel1.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Iniciar sesion como:");
+
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox1.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Empleado" }));
+        jComboBox1.setOpaque(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(69, 69, 69)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(usuario)
-                    .addComponent(contra, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(90, 90, 90))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addComponent(jLabel4)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(usuario, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(contra, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(63, 63, 63))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,13 +143,17 @@ public class Login extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(contra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addComponent(jButton1)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, -1));
@@ -163,71 +183,26 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_contraActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        conexion(usuario.getText(), contra.getText());
+        String seleccion = jComboBox1.getSelectedItem().toString();
+        if(seleccion.equals("Empleado")){
+        CLogin login = new CLogin(principal,usuario.getText(),contra.getText());
+        }
+        else{
+            CambioFrame nuevo= new CambioFrame(principal, new Administrador(principal));
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
- public void conexion(String usuario,String contra) {
-        String jdbcURL = "jdbc:postgresql://localhost:5432/chapinmarket"; // Cambia la URL según tu configuración
-        String username = "postgres";
-        String password = "jose";
 
-        String consultaSql = "SELECT * FROM admin.Empleado WHERE Usuario = ?";
-
-        try {
-            // Establecer la conexión con la base de datos
-            Connection conexion = DriverManager.getConnection(jdbcURL, username, password);
-
-            // Crear una sentencia preparada para la consulta
-            PreparedStatement preparedStatement = conexion.prepareStatement(consultaSql);
-            preparedStatement.setString(1, usuario); // Parámetro de la consulta
-
-            // Ejecutar la consulta
-            ResultSet resultado = preparedStatement.executeQuery();
-
-            // Procesar el resultado de la consulta
-            if (resultado.next()) {
-                String usuarioCajero = resultado.getString("Usuario");
-                String puesto = resultado.getString("Puesto");
-                String codigoSucursal = resultado.getString("codigoSucursal");
-                String contraBD = resultado.getString("Contrasenea");
-                // Mostrar la información del cajero1
-                if(usuarioCajero.equals(usuario) && contraBD.equals(contra)){
-                    cambioFrame(puesto);
-                }
-                else{
-                    System.out.println("Olvidaste tu contrsenea?");
-                }
-            } else {
-                System.out.println("No se encontró al usuario en la base de datos.");
-            }
-
-            // Cerrar recursos
-            resultado.close();
-            preparedStatement.close();
-            conexion.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }   
-    private void cambioFrame(String puesto){
-        if(puesto.equals("Cajero")){
-        
-        }
-        else if(puesto.equals("Bodega")){
-            CambioFrame nuevo =  new CambioFrame(principal, new Bodega(principal));
-        }
-        else{
-            System.out.println("Puesto no encontrado");
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField contra;
     private javax.swing.JLabel fondo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

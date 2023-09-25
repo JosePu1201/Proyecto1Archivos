@@ -4,16 +4,19 @@
  */
 package com.mycompany.marketchapin.backEnd;
 
+import com.mycompany.marketchapin.controladores.CambioFrame;
+
 /**
  *
  * @author jose
  */
 public class Administrador extends javax.swing.JPanel {
-
+    private Frame principal;
     /**
      * Creates new form Administrador
      */
-    public Administrador() {
+    public Administrador(Frame principal) {
+       this.principal = principal;
         initComponents();
     }
 
@@ -39,7 +42,7 @@ public class Administrador extends javax.swing.JPanel {
         fondo = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(630, 560));
-        setPreferredSize(new java.awt.Dimension(663, 579));
+        setPreferredSize(new java.awt.Dimension(641, 579));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setOpaque(false);
@@ -63,7 +66,7 @@ public class Administrador extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Chandas", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 51, 0));
-        jButton1.setText("Agregar emleado");
+        jButton1.setText("Agregar empleado");
         jButton1.setOpaque(false);
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
@@ -94,6 +97,11 @@ public class Administrador extends javax.swing.JPanel {
         jButton5.setForeground(new java.awt.Color(255, 102, 0));
         jButton5.setText("Cerrar sesion");
         jButton5.setOpaque(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,6 +171,10 @@ public class Administrador extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        CambioFrame nuevo = new  CambioFrame(principal, new Login(principal));
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
