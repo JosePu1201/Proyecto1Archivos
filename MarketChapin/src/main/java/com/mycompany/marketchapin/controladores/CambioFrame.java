@@ -5,7 +5,7 @@
 package com.mycompany.marketchapin.controladores;
 
 
-import com.mycompany.marketchapin.backEnd.Frame;
+import com.mycompany.marketchapin.frontEnd.Frame;
 import javax.swing.JPanel;
 
 /**

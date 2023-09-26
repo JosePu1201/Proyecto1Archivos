@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.marketchapin.backEnd;
+package com.mycompany.marketchapin.frontEnd;
 
 import com.mycompany.marketchapin.controladores.CambioFrame;
 import java.awt.Panel;
@@ -372,7 +372,7 @@ public class Bodega extends javax.swing.JPanel {
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 1400, 640));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/marketchapin/backEnd/imagenes/stock-1863880_1920.jpg"))); // NOI18N
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/marketchapin/frontEnd/imagenes/stock-1863880_1920.jpg"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1450, 680));
     }// </editor-fold>//GEN-END:initComponents
 

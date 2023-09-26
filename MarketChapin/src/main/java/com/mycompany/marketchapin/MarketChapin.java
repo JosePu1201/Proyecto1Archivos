@@ -3,9 +3,9 @@
  */
 package com.mycompany.marketchapin;
 
-import com.mycompany.marketchapin.backEnd.Bodega;
-import com.mycompany.marketchapin.backEnd.Frame;
-import com.mycompany.marketchapin.backEnd.Login;
+import com.mycompany.marketchapin.frontEnd.Bodega;
+import com.mycompany.marketchapin.frontEnd.Frame;
+import com.mycompany.marketchapin.frontEnd.Login;
 import com.mycompany.marketchapin.controladores.CambioFrame;
 import java.awt.Dimension;
 import javax.swing.JFrame;

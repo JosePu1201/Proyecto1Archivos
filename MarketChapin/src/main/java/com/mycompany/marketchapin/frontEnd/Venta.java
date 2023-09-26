@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.marketchapin.backEnd;
+package com.mycompany.marketchapin.frontEnd;
 
 import com.mycompany.marketchapin.controladores.CambioFrame;
 
@@ -116,6 +116,11 @@ public class Venta extends javax.swing.JPanel {
         });
 
         jButton3.setText("Cancelar Venta");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Factura No:");
 
@@ -221,6 +226,10 @@ public class Venta extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        CambioFrame nuevo = new CambioFrame(principal, cajero);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        CambioFrame nuevo = new CambioFrame(principal, cajero);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

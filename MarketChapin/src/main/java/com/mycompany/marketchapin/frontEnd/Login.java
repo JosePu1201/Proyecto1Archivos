@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.marketchapin.backEnd;
+package com.mycompany.marketchapin.frontEnd;
 
 import com.mycompany.marketchapin.Conexiones.CLogin;
+import com.mycompany.marketchapin.Conexiones.CLoginAdmin;
 import com.mycompany.marketchapin.controladores.CambioFrame;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -170,7 +171,7 @@ public class Login extends javax.swing.JPanel {
         });
         add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, -1));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/marketchapin/backEnd/imagenes/statistics-3335680_640.jpg"))); // NOI18N
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/marketchapin/frontEnd/imagenes/statistics-3335680_640.jpg"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 625, 347));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -188,7 +189,7 @@ public class Login extends javax.swing.JPanel {
         CLogin login = new CLogin(principal,usuario.getText(),contra.getText());
         }
         else{
-            CambioFrame nuevo= new CambioFrame(principal, new Administrador(principal));
+            CLoginAdmin admin = new CLoginAdmin(principal, usuario.getText(), contra.getText());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

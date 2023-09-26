@@ -4,6 +4,7 @@
  */
 package com.mycompany.marketchapin.Conexiones;
 
+import com.mycompany.marketchapin.frontEnd.Admin.Administrador;
 import com.mycompany.marketchapin.frontEnd.Bodega;
 import com.mycompany.marketchapin.frontEnd.Frame;
 import com.mycompany.marketchapin.frontEnd.opcionCajero;
@@ -19,25 +20,25 @@ import javax.swing.JOptionPane;
  *
  * @author jose
  */
-public class CLogin {
+public class CLoginAdmin {
 
     private Frame principal;
     private String usuario;
     private String contra;
 
-    public CLogin(Frame principal, String usaurio, String contra) {
+    public CLoginAdmin(Frame principal, String usuario, String contra) {
         this.principal = principal;
-        this.usuario = usaurio;
+        this.usuario = usuario;
         this.contra = contra;
         conexion(usuario, contra);
     }
-
-    private void conexion(String usuario, String contra) {
+    
+ private void conexion(String usuario, String contra) {
         String jdbcURL = "jdbc:postgresql://localhost:5432/chapinmarket"; // Cambia la URL según tu configuración
         String username = "postgres";
         String password = "jose";
 
-        String consultaSql = "SELECT * FROM admin.Empleado WHERE Usuario = ?";
+        String consultaSql = "SELECT * FROM admin.Administrador WHERE Usuario = ?";
 
         try {
             // Establecer la conexión con la base de datos
@@ -51,20 +52,21 @@ public class CLogin {
             ResultSet resultado = preparedStatement.executeQuery();
 
             // Procesar el resultado de la consulta
+            /*
+            INSERT INTO admin.Administrador (usuario,contrasene)
+VALUES('admin','admin');*/
             if (resultado.next()) {
-                String usuarioCajero = resultado.getString("Usuario");
-                String puesto = resultado.getString("Puesto");
-                String codigoSucursal = resultado.getString("codigoSucursal");
-                String contraBD = resultado.getString("Contrasenea");
+                String usuarioCajero = resultado.getString("usuario");
+                String contraBD = resultado.getString("contrasene");
                 // Mostrar la información del cajero1
                 if (usuarioCajero.equals(usuario) && contraBD.equals(contra)) {
-                    cambioFrame(puesto, usuarioCajero, codigoSucursal);
-                    JOptionPane.showMessageDialog(null, " Iniciaste sesion como " + usuarioCajero + " en la sucursal " + codigoSucursal);
+                    cambioFrame();
+                    JOptionPane.showMessageDialog(null, " Iniciaste sesion como " + usuarioCajero);
                 } else {
                     System.out.println("Olvidaste tu contrsenea?");
                 }
             } else {
-                System.out.println("No se encontró al usuario en la base de datos.");
+                JOptionPane.showMessageDialog(null, "El usuario no existe");
             }
 
             // Cerrar recursos
@@ -76,13 +78,7 @@ public class CLogin {
         }
     }
 
-    private void cambioFrame(String puesto, String usuario, String sucursal) {
-        if (puesto.equals("Cajero")) {
-            CambioFrame nuevo = new CambioFrame(principal, new opcionCajero(principal, usuario, sucursal));
-        } else if (puesto.equals("Bodega")) {
-            CambioFrame nuevo = new CambioFrame(principal, new Bodega(principal, usuario, sucursal));
-        } else {
-            System.out.println("Puesto no encontrado");
-        }
+    private void cambioFrame() {
+        CambioFrame nuevo = new CambioFrame(principal, new Administrador(principal));
     }
 }

@@ -1,4 +1,4 @@
-CREATE DATABASE chapinMarket;
+CREATE DATABASE chapinmarket;
 \c chapinMarket
 CREATE SCHEMA admin;
 CREATE SCHEMA prodG;
@@ -41,6 +41,11 @@ CREATE TABLE admin.chapinMarket(
     Nombre VARCHAR(10) NOT NULL,
     CodigoComercio VARCHAR(10) NOT NULL,
     PRIMARY KEY (CodigoComercio)
+);
+CREATE TABLE admin.Administrador(
+    usuario VARCHAR (20) NOT NULL,
+    contrasene VARCHAR (20) NOT NULL,
+    PRIMARY KEY(usuario)
 );
 -- Tabla Sucursal 
 CREATE TABLE admin.Sucursal(
@@ -107,14 +112,6 @@ CREATE TABLE estante.Producto_En_Estanteria(
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo) 
 );
 -- agregando tablas al schema factura
-CREATE TABLE factura.ListaProd(
-    codigoLista VARCHAR(10) NOT NULL,
-    Precio DECIMAL(10, 2) NOT NULL,
-    cantidadVendiad INT NOT NULL,
-    codigoProducto VARCHAR(10) NOT NULL,
-    PRIMARY KEY (codigoLista),
-    FOREIGN KEY (codigoProducto) REFERENCES prodG.Producto(Codigo)
- );
 
 CREATE TABLE factura.Venta(
     numeroFactura VARCHAR(10) NOT NULL,
@@ -127,10 +124,18 @@ CREATE TABLE factura.Venta(
     codigoLista VARCHAR(10) NOT NULL,
     PRIMARY KEY (numeroFactura),
     FOREIGN KEY (Nit) REFERENCES clientes.Cliente(Nit),
-    FOREIGN KEY (codigoEmpleado) REFERENCES admin.Empleado(Usuario),
-    FOREIGN KEY (codigoLista) REFERENCES factura.ListaProd (codigoLista)
+    FOREIGN KEY (codigoEmpleado) REFERENCES admin.Empleado(Usuario)
 );
-
+CREATE TABLE factura.ListaProd(
+    codigoLista VARCHAR(10) NOT NULL,
+    Precio DECIMAL(10, 2) NOT NULL,
+    cantidadVendiad INT NOT NULL,
+    codigoProducto VARCHAR(10) NOT NULL,
+    numeroFactura VARCHAR(10) NOT NULL,
+    PRIMARY KEY (codigoLista),
+    FOREIGN KEY (numeroFactura) REFERENCES factura.Venta(numeroFactura),
+    FOREIGN KEY (codigoProducto) REFERENCES prodG.Producto(Codigo)
+ );
 
 
 
@@ -232,3 +237,9 @@ VALUES
     ('inventario8', 'inventario8', 'Inventario', '002'),
     ('cajero12', 'cajero12', 'Cajero', '002'),
     ('bodega3', 'bodega3', 'Bodega', '002');
+INSERT INTO admin.Administrador (usuario,contrasene)
+VALUES('admin','admin');
+
+
+
+
