@@ -57,7 +57,7 @@ public class CLoginAdmin {
 VALUES('admin','admin');*/
             if (resultado.next()) {
                 String usuarioCajero = resultado.getString("usuario");
-                String contraBD = resultado.getString("contrasene");
+                String contraBD = resultado.getString("contrasena");
                 // Mostrar la información del cajero1
                 if (usuarioCajero.equals(usuario) && contraBD.equals(contra)) {
                     cambioFrame();

@@ -1,5 +1,8 @@
+
 CREATE DATABASE chapinmarket;
-\c chapinMarket
+\c chapinmarket
+
+-- Crear los esquemas
 CREATE SCHEMA admin;
 CREATE SCHEMA prodG;
 CREATE SCHEMA factura;
@@ -9,14 +12,15 @@ CREATE SCHEMA bodegaS;
 CREATE SCHEMA clientes;
 CREATE SCHEMA descuentos;
 
---Crear la tabla de Clientes
+-- Crear la tabla de Clientes en el esquema "clientes"
 CREATE TABLE clientes.Cliente (
     Nit VARCHAR(10) NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     GastosEnTienda DECIMAL(10, 2),
     PRIMARY KEY(Nit)
 );
---Crea la tabla de Tarjetas
+
+-- Crear la tabla de Tarjetas en el esquema "descuentos"
 CREATE TABLE descuentos.Tarjeta (
     Numero_Tarjeta VARCHAR(10) NOT NULL,
     Nit_Cliente VARCHAR(10) NOT NULL,
@@ -28,26 +32,28 @@ CREATE TABLE descuentos.Tarjeta (
     PRIMARY KEY (Numero_Tarjeta)
 );
 
--- Crear tabla de productos
+-- Crear la tabla de productos en el esquema "prodG"
 CREATE TABLE prodG.Producto(
     Nombre VARCHAR (50) NOT NULL,
-    Codigo VARCHAR (10) NOT NULL,
+    Codigo SERIAL,
     Precio DECIMAL (10,2) NOT NULL, 
     PRIMARY KEY (Codigo)
 );
---Crearcion de tablas en schema admin
--- Crear tablas de administradores
+
+-- Crear las tablas del esquema "admin"
 CREATE TABLE admin.chapinMarket(
     Nombre VARCHAR(10) NOT NULL,
     CodigoComercio VARCHAR(10) NOT NULL,
     PRIMARY KEY (CodigoComercio)
 );
+
 CREATE TABLE admin.Administrador(
     usuario VARCHAR (20) NOT NULL,
-    contrasene VARCHAR (20) NOT NULL,
+    contrasena VARCHAR (20) NOT NULL,
     PRIMARY KEY(usuario)
 );
--- Tabla Sucursal 
+
+-- Crear la tabla Sucursal en el esquema "admin"
 CREATE TABLE admin.Sucursal(
     Codigo VARCHAR(3) NOT NULL,
     Nombre VARCHAR (25) NOT NULL,
@@ -56,89 +62,91 @@ CREATE TABLE admin.Sucursal(
     cantProducto INT NOT NULL,
     PRIMARY KEY (Codigo)
 );
---Tabla empleado
+
+-- Crear la tabla Empleado en el esquema "admin"
 CREATE TABLE admin.Empleado(
     Usuario VARCHAR(20) NOT NULL,
-    Contrasenea VARCHAR(20) NOT NULL,
+    Contrasena VARCHAR(20) NOT NULL,
     Puesto VARCHAR(10) NOT NULL,
     codigoSucursal VARCHAR (3) NOT NULL,
     PRIMARY KEY (Usuario),
     FOREIGN KEY (codigoSucursal) REFERENCES admin.Sucursal(Codigo)
 );
--- Creacion en schema inventaroG
+
+-- Crear la tabla Inventaro en el esquema "inventarioG"
 CREATE TABLE inventarioG.Inventaro(
-    idInventario VARCHAR(5) NOT NULL,
+    idInventario SERIAL,
     idSucursal VARCHAR(4) NOT NULL,
-    idProducto VARCHAR (10) NOT NULL,
+    idProducto INTEGER,
     cantidad INT NOT NULL,
     PRIMARY KEY (idInventario),
     FOREIGN KEY (idSucursal) REFERENCES admin.Sucursal(Codigo),
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo)
 );
---Schema de bodegaS
---Tabla de bodega
+
+-- Crear la tabla Bodega en el esquema "bodegaS"
 CREATE TABLE bodegaS.Bodega(
     idBodega VARCHAR(3) NOT NULL,
-    idInventario VARCHAR(5) NOT NULL,
+    idSucursal VARCHAR(3) NOT NULL,
     PRIMARY KEY (idBodega),
-    FOREIGN KEY (idInventario) REFERENCES inventarioG.Inventaro(idInventario) 
+    FOREIGN KEY (idSucursal) REFERENCES admin.Sucursal(Codigo)
 );
---Tabla de  inventario_de_Producto_enBodega
+
+-- Crear la tabla inventario_de_Producto_enBodega en el esquema "bodegaS"
 CREATE TABLE bodegaS.inventario_de_Producto_enBodega(
-    idInventarioB VARCHAR(3) NOT NULL,
+    idInventarioB SERIAL,
     idBodega VARCHAR(3) NOT NULL,
-    idProducto VARCHAR(10) NOT NULL,
+    idProducto INTEGER,
     cant INT,
     PRIMARY KEY (idInventarioB),
     FOREIGN KEY (idBodega) REFERENCES bodegaS.Bodega(idBodega),
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo)
 );
--- Crear tablas en el schema  estante
+
+-- Crear la tabla Estanteria en el esquema "estante"
 CREATE TABLE estante.Estanteria(
-    idEstante VARCHAR (5) NOT NULL,
+    idEstante SERIAL,
     idBodega VARCHAR(3) NOT NULL,
     capacidad INT NOT NULL,
     PRIMARY KEY (idEstante),
     FOREIGN KEY (idBodega) REFERENCES bodegaS.Bodega(idBodega)
 );
---Crear tabla Producto en estanteria
+
+-- Crear la tabla Producto_En_Estanteria en el esquema "estante"
 CREATE TABLE estante.Producto_En_Estanteria(
     idProdEstante VARCHAR(5) NOT NULL,
-    idEstante VARCHAR (5) NOT NULL,
-    idProducto VARCHAR (10) NOT NULL,
+    idEstante INTEGER,
+    idProducto INTEGER,
     cant INT NOT NULL,
     PRIMARY KEY (idProdEstante),
     FOREIGN KEY (idEstante) REFERENCES estante.Estanteria(idEstante),
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo) 
 );
--- agregando tablas al schema factura
 
+-- Crear las tablas del esquema "factura"
 CREATE TABLE factura.Venta(
-    numeroFactura VARCHAR(10) NOT NULL,
+    numeroFactura SERIAL,
     Nombre VARCHAR(50) NOT NULL,
     Nit VARCHAR(10) NOT NULL,
     Fecha DATE NOT NULL,
-    codigoEmpleado VARCHAR(5) NOT NULL,
+    codigoEmpleado VARCHAR(20) NOT NULL,
     TotalSinDescuento DECIMAL(10,2) NOT NULL,
     TotalConDescuento DECIMAL(10,2) NOT NULL,
-    codigoLista VARCHAR(10) NOT NULL,
     PRIMARY KEY (numeroFactura),
     FOREIGN KEY (Nit) REFERENCES clientes.Cliente(Nit),
     FOREIGN KEY (codigoEmpleado) REFERENCES admin.Empleado(Usuario)
 );
+
 CREATE TABLE factura.ListaProd(
-    codigoLista VARCHAR(10) NOT NULL,
-    Precio DECIMAL(10, 2) NOT NULL,
+    codigoLista SERIAL,
     cantidadVendiad INT NOT NULL,
-    codigoProducto VARCHAR(10) NOT NULL,
-    numeroFactura VARCHAR(10) NOT NULL,
+    codigoProducto INTEGER,
+    numeroFactura INTEGER,
+    subTotal DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (codigoLista),
     FOREIGN KEY (numeroFactura) REFERENCES factura.Venta(numeroFactura),
     FOREIGN KEY (codigoProducto) REFERENCES prodG.Producto(Codigo)
- );
-
-
-
+);
 
 
 -- Generar 150 productos aleatorios
@@ -176,22 +184,18 @@ DECLARE
     schema_name TEXT := 'prodG'; -- Nombre de tu esquema
     nombre TEXT;
     precio NUMERIC;
-    codigo TEXT;
 BEGIN
     FOR i IN 1..150 LOOP
         -- Obtener el nombre en orden secuencial
         nombre := nombres[i];
 
         -- Generar un precio aleatorio entre 1.00 y 100.00
-        precio := (random() * 99) + 1;
-
-        -- Generar un código único de 10 caracteres
-        codigo := substring(md5(random()::text), 1, 10);
+        precio := (random() * 1000) + 1;
 
         -- Insertar el producto en la tabla
         IF nombre IS NOT NULL THEN
-            EXECUTE 'INSERT INTO ' || schema_name || '.Producto (Nombre, Codigo, Precio) VALUES ($1, $2, $3)'
-            USING nombre, codigo, precio;
+            EXECUTE 'INSERT INTO ' || schema_name || '.Producto (Nombre, Precio) VALUES ($1, $2)'
+            USING nombre, precio;
         END IF;
     END LOOP;
 END $$;
@@ -210,7 +214,7 @@ INSERT INTO admin.Sucursal (Codigo, Nombre, Ingresos, Ubicacion, cantProducto)
 VALUES ('003', 'Sucursal Sur', 0.00, 'Sur', 75);
 
 -- Insertar 11 empleados en la sucursal 001
-INSERT INTO admin.Empleado (Usuario, Contrasenea, Puesto, codigoSucursal)
+INSERT INTO admin.Empleado (Usuario, Contrasena, Puesto, codigoSucursal)
 VALUES
     ('cajero1', 'cajero1', 'Cajero', '001'),
     ('cajero2', 'cajero2', 'Cajero', '001'),
@@ -219,12 +223,13 @@ VALUES
     ('cajero5', 'cajero5', 'Cajero', '001'),
     ('cajero6', 'cajero6', 'Cajero', '001'),
     ('inventario1', 'inventario1', 'Inventario', '001'),
-    ('inventario2', 'invnetario2', 'Inventario', '001'),
+    ('inventario2', 'inventario2', 'Inventario', '001'),
     ('inventario3', 'inventario3', 'Inventario', '001'),
     ('inventario4', 'inventario4', 'Inventario', '001'),
     ('bodega1', 'bodega1', 'Bodega', '001');
 
-INSERT INTO admin.Empleado (Usuario, Contrasenea, Puesto, codigoSucursal)
+-- Insertar 11 empleados en la sucursal 002
+INSERT INTO admin.Empleado (Usuario, Contrasena, Puesto, codigoSucursal)
 VALUES
     ('cajero7', 'cajero7', 'Cajero', '002'),
     ('cajero8', 'cajero8', 'Cajero', '002'),
@@ -232,14 +237,40 @@ VALUES
     ('cajero10', 'cajero10', 'Cajero', '002'),
     ('cajero11', 'cajero11', 'Cajero', '002'),
     ('inventario5', 'inventario5', 'Inventario', '002'),
-    ('inventario6', 'invnetario6', 'Inventario', '002'),
+    ('inventario6', 'inventario6', 'Inventario', '002'),
     ('inventario7', 'inventario7', 'Inventario', '002'),
     ('inventario8', 'inventario8', 'Inventario', '002'),
     ('cajero12', 'cajero12', 'Cajero', '002'),
     ('bodega3', 'bodega3', 'Bodega', '002');
-INSERT INTO admin.Administrador (usuario,contrasene)
-VALUES('admin','admin');
 
+-- Insertar el administrador
+INSERT INTO admin.Administrador (usuario, contrasena)
+VALUES ('admin', 'admin');
 
+DO $$
+DECLARE
+    producto_id INTEGER;
+    cantidad INTEGER;
+BEGIN
+    FOR i IN 1..50 LOOP
+        -- Genera un producto_id aleatorio entre 1 y 150
+        producto_id := i;
+
+        -- Genera una cantidad aleatoria entre 1 y 20
+        cantidad := floor(random() * 20) + 1;
+
+        -- Inserta el registro en la tabla inventarioG.Inventaro
+        INSERT INTO inventarioG.Inventaro (idSucursal, idProducto, cantidad)
+        VALUES ('001', producto_id, cantidad);
+    END LOOP;
+END $$;
+
+INSERT INTO bodegaS.Bodega (idBodega, idSucursal)
+VALUES ('1B', '001');
+
+INSERT INTO bodegaS.inventario_de_Producto_enBodega (idBodega, idProducto, cant)
+SELECT '1B', idProducto, cantidad
+FROM inventarioG.Inventaro
+WHERE idSucursal = '001';
 
 

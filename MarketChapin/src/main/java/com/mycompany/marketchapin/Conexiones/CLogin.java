@@ -55,7 +55,7 @@ public class CLogin {
                 String usuarioCajero = resultado.getString("Usuario");
                 String puesto = resultado.getString("Puesto");
                 String codigoSucursal = resultado.getString("codigoSucursal");
-                String contraBD = resultado.getString("Contrasenea");
+                String contraBD = resultado.getString("Contrasena");
                 // Mostrar la información del cajero1
                 if (usuarioCajero.equals(usuario) && contraBD.equals(contra)) {
                     cambioFrame(puesto, usuarioCajero, codigoSucursal);
