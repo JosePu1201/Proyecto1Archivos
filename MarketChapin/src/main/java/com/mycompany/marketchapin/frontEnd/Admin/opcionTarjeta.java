@@ -12,12 +12,14 @@ import com.mycompany.marketchapin.frontEnd.Frame;
  * @author jose
  */
 public class opcionTarjeta extends javax.swing.JPanel {
+
     private Frame principal;
     private Administrador admin;
+
     /**
      * Creates new form opcionTarjeta
      */
-    public opcionTarjeta(Frame principal,Administrador admin) {
+    public opcionTarjeta(Frame principal, Administrador admin) {
         this.admin = admin;
         this.principal = principal;
         initComponents();
@@ -94,7 +96,6 @@ public class opcionTarjeta extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         CambioFrame nuevo = new CambioFrame(principal, admin);
     }//GEN-LAST:event_jButton3ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;

@@ -14,6 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,27 +26,32 @@ import javax.swing.table.DefaultTableModel;
  * @author jose
  */
 public class Bodega extends javax.swing.JPanel {
+
     private Frame principal;
     private String usuario;
     private String sucurasl;
-    private ArrayList <String> prodBodega = new ArrayList<>();
-    private ArrayList <String> prodGeneral = new ArrayList<>();
+    private ArrayList<String> prodBodega = new ArrayList<>();
+    private ArrayList<String> prodGeneral = new ArrayList<>();
     private String idBodega;
     CBodega nuevo = new CBodega(sucurasl);
+
     /**
      * Creates new form Bodega
      */
-    public Bodega(Frame prinicpal,String usuario,String sucursal) {
+    public Bodega(Frame prinicpal, String usuario, String sucursal) {
         this.principal = prinicpal;
         this.usuario = usuario;
         this.sucurasl = sucursal;
         initComponents();
+        productos.setRowHeight(50);
+        jTable1.setRowHeight(50);
         conexion();
-        datos.setText("Usuario: "+usuario+"               Sucursal: "+sucursal);
+        datos.setText("Usuario: " + usuario + "               Sucursal: " + sucursal);
         obtenerProductos();
         jPanel1.setVisible(false);
         jPanel2.setVisible(false);
         productos.setDefaultEditor(Object.class, null);
+        validar();
     }
 
     /**
@@ -70,13 +79,14 @@ public class Bodega extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        productosOpcionales = new javax.swing.JComboBox<>();
+        cantidadNuevo = new javax.swing.JFormattedTextField();
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         productos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         datos = new javax.swing.JLabel();
+        infoCant = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -225,15 +235,15 @@ public class Bodega extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Cantidad");
 
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox2.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        jComboBox2.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBox2.setOpaque(false);
+        productosOpcionales.setBackground(new java.awt.Color(255, 255, 255));
+        productosOpcionales.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        productosOpcionales.setForeground(new java.awt.Color(0, 0, 0));
+        productosOpcionales.setOpaque(false);
 
-        jFormattedTextField1.setBackground(new java.awt.Color(0, 0, 0));
-        jFormattedTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        jFormattedTextField1.setOpaque(false);
+        cantidadNuevo.setBackground(new java.awt.Color(0, 0, 0));
+        cantidadNuevo.setForeground(new java.awt.Color(255, 255, 255));
+        cantidadNuevo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        cantidadNuevo.setOpaque(false);
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
@@ -257,11 +267,11 @@ public class Bodega extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(productosOpcionales, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cantidadNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -279,9 +289,9 @@ public class Bodega extends javax.swing.JPanel {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                    .addComponent(productosOpcionales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cantidadNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jButton4))
         );
 
@@ -320,6 +330,10 @@ public class Bodega extends javax.swing.JPanel {
         datos.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
         datos.setForeground(new java.awt.Color(255, 255, 255));
 
+        infoCant.setFont(new java.awt.Font("C059", 2, 18)); // NOI18N
+        infoCant.setForeground(new java.awt.Color(255, 255, 255));
+        infoCant.setText("dsf");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -350,8 +364,10 @@ public class Bodega extends javax.swing.JPanel {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(79, 79, 79))))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(300, 300, 300)
-                .addComponent(jLabel1)
+                .addGap(310, 310, 310)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(infoCant))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(136, 136, 136))
@@ -363,18 +379,20 @@ public class Bodega extends javax.swing.JPanel {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(59, 59, 59)
+                .addComponent(datos)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(datos)
                         .addGap(14, 14, 14)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(infoCant)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,15 +423,40 @@ public class Bodega extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         CambioFrame cambio = new CambioFrame(principal, new Login(principal));
+        nuevo.cerrarConexion();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        System.out.println("CantidadEnBodega = " + nuevo.obtenerCantidadFilasPorIdBodega(idBodega));
+
+        /*
+        *Verifica que los campos no esten vacios y se pueda hacer la incerscion con r parametros 
+        *sucursal
+        *idProducto
+        *Cantidad
+         */
+        if (!productosOpcionales.getSelectedItem().toString().isEmpty() && !cantidadNuevo.getText().isEmpty()) {
+            int idProducto = Integer.parseInt(productosOpcionales.getSelectedItem().toString());
+            int cantidad = Integer.parseInt(cantidadNuevo.getText());
+            if (validar()) {
+                nuevo.insertarProductoEnBodega(sucurasl, idProducto, cantidad);
+                obtenerProductos();
+            }else{
+            JOptionPane.showMessageDialog(null, "LA sucursal ya llego a su limite de productos");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "uno de los campos esta vacio");
+        }
+        agregarACombo();
+        validar();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            jPanel2.setVisible(true);
-            jPanel1.setVisible(false);
+        jPanel2.setVisible(true);
+        jPanel1.setVisible(false);
+        agregarACombo();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void idProdAumetnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idProdAumetnoActionPerformed
@@ -421,26 +464,26 @@ public class Bodega extends javax.swing.JPanel {
     }//GEN-LAST:event_idProdAumetnoActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int cantidad = Integer.parseInt(cantAumento.getText());
-        int codigoProd = Integer.parseInt(idProdAumetno.toString());
-        System.out.println("la cantidad es: "+cantidad+"\tEl codigo es:"+codigoProd+"\t"+idBodega);
-        //nuevo.aumentarCantidadEnBodega(idBodega, codigoProd, cantidad);
-        //nuevo.obtenerBodegaPorSucursal(sucurasl);
-    }//GEN-LAST:event_jButton3ActionPerformed
 
+        int cantidad = Integer.parseInt(cantAumento.getText());
+        int codigoProd = Integer.parseInt(idProdAumetno.getSelectedItem().toString());
+        System.out.println("la cantidad es: " + cantidad + "\tEl codigo es:" + codigoProd + "\t" + idBodega);
+        nuevo.aumentarCantidadEnBodega(idBodega, codigoProd, cantidad);
+        obtenerProductos();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField cantAumento;
+    private javax.swing.JFormattedTextField cantidadNuevo;
     private javax.swing.JLabel datos;
     private javax.swing.JLabel fondo;
     private javax.swing.JComboBox<String> idProdAumetno;
+    private javax.swing.JLabel infoCant;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -454,6 +497,7 @@ public class Bodega extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable productos;
+    private javax.swing.JComboBox<String> productosOpcionales;
     // End of variables declaration//GEN-END:variables
  private void conexion() {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -496,14 +540,59 @@ public class Bodega extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     public void obtenerProductos() {
-        nuevo.obtenerProductosPorSucursal(jTable1, sucurasl, prodBodega);
+        nuevo.obtenerProductosEnBodega(jTable1, nuevo.obtenerBodegaPorSucursal(sucurasl), prodBodega);
         idBodega = nuevo.obtenerBodegaPorSucursal(sucurasl);
         System.out.println(idBodega);
     }
-    public void aumentarProdBodga(){
+
+    public void aumentarProdBodga() {
         for (String string : prodBodega) {
             idProdAumetno.addItem(string);
+        }
+    }
+
+    private ArrayList<String> nuevo(ArrayList<String> lista1, ArrayList<String> lista2) {
+        ArrayList<String> nuevo = new ArrayList<>();
+        for (String string : lista1) {
+            boolean bandera = false;
+            for (String string1 : lista2) {
+                if (string.equals(string1)) {
+                    bandera = true;
+                }
+            }
+            if (bandera == false) {
+                nuevo.add(string);
+            }
+        }
+
+        return nuevo;
+
+    }
+
+    private void agregarACombo() {
+        ArrayList<String> nuevo;
+        if (prodGeneral.size() >= prodBodega.size()) {
+            nuevo = nuevo(prodGeneral, prodBodega);
+        } else {
+            nuevo = nuevo(prodBodega, prodGeneral);
+        }
+        productosOpcionales.removeAllItems();
+        for (String string : nuevo) {
+            productosOpcionales.addItem(string);
+        }
+    }
+
+    private boolean validar() {
+        int filas = nuevo.obtenerCantidadFilasPorIdBodega(idBodega);
+        int total = nuevo.obtenerCantidadProductosPorSucursal(sucurasl);
+        infoCant.setText("Tienes " + filas + " de " + total + " productos diferentes en la sucursal");
+        if (filas < total) {
+            infoCant.setText("Tienes " + filas + " de " + total + " productos diferentes en la sucursal");
+            return true;
+        } else {
+            return false;
         }
     }
 }

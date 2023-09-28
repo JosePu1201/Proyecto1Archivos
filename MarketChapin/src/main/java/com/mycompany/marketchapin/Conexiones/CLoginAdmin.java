@@ -32,8 +32,8 @@ public class CLoginAdmin {
         this.contra = contra;
         conexion(usuario, contra);
     }
-    
- private void conexion(String usuario, String contra) {
+
+    private void conexion(String usuario, String contra) {
         String jdbcURL = "jdbc:postgresql://localhost:5432/chapinmarket"; // Cambia la URL según tu configuración
         String username = "postgres";
         String password = "jose";

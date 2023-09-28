@@ -4,7 +4,6 @@
  */
 package com.mycompany.marketchapin.controladores;
 
-
 import com.mycompany.marketchapin.frontEnd.Frame;
 import javax.swing.JPanel;
 
@@ -13,6 +12,7 @@ import javax.swing.JPanel;
  * @author jose
  */
 public class CambioFrame {
+
     private Frame frame;
     private JPanel panel;
 
@@ -21,8 +21,8 @@ public class CambioFrame {
         this.panel = panel;
         cambios();
     }
-    
-    public void cambios(){
+
+    public void cambios() {
         frame.configuracionesGenerales(panel.getPreferredSize());
         frame.add(panel);
     }

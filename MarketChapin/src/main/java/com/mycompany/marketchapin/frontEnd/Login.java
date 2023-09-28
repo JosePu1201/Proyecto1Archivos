@@ -26,6 +26,7 @@ public class Login extends javax.swing.JPanel {
      * Creates new form Login
      */
     Frame principal;
+
     public Login(Frame principal) {
         this.principal = principal;
         initComponents();
@@ -185,16 +186,15 @@ public class Login extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String seleccion = jComboBox1.getSelectedItem().toString();
-        if(seleccion.equals("Empleado")){
-        CLogin login = new CLogin(principal,usuario.getText(),contra.getText());
-        }
-        else{
+        if (seleccion.equals("Empleado")) {
+            CLogin login = new CLogin(principal, usuario.getText(), contra.getText());
+        } else {
             CLoginAdmin admin = new CLoginAdmin(principal, usuario.getText(), contra.getText());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

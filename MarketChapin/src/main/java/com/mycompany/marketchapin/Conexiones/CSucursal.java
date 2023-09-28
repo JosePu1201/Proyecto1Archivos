@@ -116,7 +116,7 @@ public class CSucursal {
             } else {
                 JOptionPane.showMessageDialog(null, "Empleado creado de fomra correcta");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,12 +13,14 @@ import com.mycompany.marketchapin.frontEnd.Login;
  * @author jose
  */
 public class Administrador extends javax.swing.JPanel {
+
     private Frame principal;
+
     /**
      * Creates new form Administrador
      */
     public Administrador(Frame principal) {
-       this.principal = principal;
+        this.principal = principal;
         initComponents();
     }
 
@@ -174,7 +176,7 @@ public class Administrador extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        CambioFrame nuevo = new  CambioFrame(principal, new Login(principal));
+        CambioFrame nuevo = new CambioFrame(principal, new Login(principal));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -184,7 +186,6 @@ public class Administrador extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         CambioFrame nuevo = new CambioFrame(principal, new opcionTarjeta(principal, this));
     }//GEN-LAST:event_jButton4ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;

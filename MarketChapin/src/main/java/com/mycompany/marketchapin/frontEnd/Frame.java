@@ -12,15 +12,15 @@ import javax.swing.JFrame;
  * @author jose
  */
 public class Frame extends JFrame {
-    
+
     private String title;
 
     public Frame(String title) {
-        this.title  = title;
+        this.title = title;
         this.setUndecorated(true);
     }
-    
-    public void configuracionesGenerales(Dimension panelSize){
+
+    public void configuracionesGenerales(Dimension panelSize) {
         this.getContentPane().removeAll();
         this.setTitle(title);
         this.setSize(panelSize);
@@ -29,5 +29,5 @@ public class Frame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
-    
+
 }

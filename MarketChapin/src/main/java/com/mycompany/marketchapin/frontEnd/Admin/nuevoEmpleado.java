@@ -17,9 +17,11 @@ import javax.swing.text.html.CSS;
  * @author jose
  */
 public class nuevoEmpleado extends javax.swing.JPanel {
+
     private Frame principl;
     private Administrador panelAdmin;
     CSucursal nuevo;
+
     /**
      * Creates new form nuevoEmpleado
      */
@@ -29,7 +31,6 @@ public class nuevoEmpleado extends javax.swing.JPanel {
         initComponents();
         nuevo = new CSucursal(sucursal);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -226,21 +227,20 @@ public class nuevoEmpleado extends javax.swing.JPanel {
         String contraS = contra.getText();
         String puestoS = puesto.getSelectedItem().toString();
         String sucursalS = sucursal.getSelectedItem().toString();
-        
-        if(usuarioS.contains(" ") && contraS.contains(" ")){
+
+        if (usuarioS.contains(" ") && contraS.contains(" ")) {
             JOptionPane.showMessageDialog(null, "El usuario y la contrasenea no puede tener espacios");
-        }else{
-            if(usuarioS.isEmpty() || contraS.isEmpty()){
+        } else {
+            if (usuarioS.isEmpty() || contraS.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Tienes un campo vacio");
-            }
-            else{
-                if(!nuevo.existeEmpleado(usuarioS)){
-                    if(nuevo.agregarEmpleado(usuarioS, contraS, puestoS, sucursalS)){
+            } else {
+                if (!nuevo.existeEmpleado(usuarioS)) {
+                    if (nuevo.agregarEmpleado(usuarioS, contraS, puestoS, sucursalS)) {
                         usuario.setText("");
                         contra.setText("");
                     }
-                    
-                }else{
+
+                } else {
                     JOptionPane.showMessageDialog(null, "Este usuario ya existe, puedes elegir otro");
                 }
             }
@@ -254,7 +254,6 @@ public class nuevoEmpleado extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField contra;

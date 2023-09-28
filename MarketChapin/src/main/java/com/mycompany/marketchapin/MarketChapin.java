@@ -22,7 +22,7 @@ import java.sql.Statement;
 public class MarketChapin {
 
     public static void main(String[] args) {
-        
+
         Frame primero = new Frame("Market-Chapin");
         Login panel = new Login(primero);
         CambioFrame cambio = new CambioFrame(primero, panel);

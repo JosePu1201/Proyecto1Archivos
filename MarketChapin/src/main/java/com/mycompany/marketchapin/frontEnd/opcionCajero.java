@@ -11,21 +11,24 @@ import com.mycompany.marketchapin.controladores.CambioFrame;
  * @author jose
  */
 public class opcionCajero extends javax.swing.JPanel {
+
     private Frame principal;
     private String usuario;
     private String sucursal;
+
     /**
      * Creates new form opcionCajero
+     *
      * @param principal
      * @param usuario
      * @param sucursal
      */
-    public opcionCajero(Frame principal,String usuario,String sucursal) {
+    public opcionCajero(Frame principal, String usuario, String sucursal) {
         this.principal = principal;
         this.sucursal = sucursal;
         this.usuario = usuario;
         initComponents();
-         jLabel1.setText("Usuario: "+usuario+"          Sucursal: "+sucursal);
+        jLabel1.setText("Usuario: " + usuario + "          Sucursal: " + sucursal);
     }
 
     /**
@@ -96,7 +99,6 @@ public class opcionCajero extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         CambioFrame nuevoFrame = new CambioFrame(principal, new Venta(principal, usuario, sucursal, this));
     }//GEN-LAST:event_jButton2ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;

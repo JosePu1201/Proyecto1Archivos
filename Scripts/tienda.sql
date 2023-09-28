@@ -94,11 +94,10 @@ CREATE TABLE bodegaS.Bodega(
 
 -- Crear la tabla inventario_de_Producto_enBodega en el esquema "bodegaS"
 CREATE TABLE bodegaS.inventario_de_Producto_enBodega(
-    idInventarioB SERIAL,
     idBodega VARCHAR(3) NOT NULL,
     idProducto INTEGER,
     cant INT,
-    PRIMARY KEY (idInventarioB),
+    PRIMARY KEY (idProducto),
     FOREIGN KEY (idBodega) REFERENCES bodegaS.Bodega(idBodega),
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo)
 );
