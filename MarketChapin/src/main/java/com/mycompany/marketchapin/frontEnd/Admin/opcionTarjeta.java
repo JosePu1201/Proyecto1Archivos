@@ -69,6 +69,11 @@ public class opcionTarjeta extends javax.swing.JPanel {
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Asignar tarjeta a cliente");
         jButton2.setOpaque(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2);
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
@@ -96,6 +101,10 @@ public class opcionTarjeta extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         CambioFrame nuevo = new CambioFrame(principal, admin);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;

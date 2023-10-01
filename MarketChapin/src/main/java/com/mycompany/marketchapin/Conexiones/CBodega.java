@@ -30,7 +30,6 @@ public class CBodega {
     private String password = "jose";
     private Connection conexion;
 
-
     public CBodega(String idSucursal) {
         this.idSucursal = idSucursal;
         try {
@@ -165,7 +164,8 @@ public class CBodega {
             System.out.println("No se encontró una bodega para la sucursal " + codigoSucursal);
         }
     }
-  public int obtenerCantidadFilasPorIdBodega(String idBodega) {
+
+    public int obtenerCantidadFilasPorIdBodega(String idBodega) {
         // Sentencia SQL
         String sql = "SELECT COUNT(*) AS cantidadFilas FROM bodegaS.inventario_de_Producto_enBodega WHERE idBodega = ?";
 
@@ -178,7 +178,7 @@ public class CBodega {
 
             // Procesar los resultados
             if (resultSet.next()) {
-                int cantidadFilas = resultSet.getInt("cantidadFilas")+1;
+                int cantidadFilas = resultSet.getInt("cantidadFilas") + 1;
                 return cantidadFilas;
             } else {
                 System.out.println("No se encontraron filas para la bodega: " + idBodega);
@@ -189,7 +189,7 @@ public class CBodega {
             return 0;
         }
     }
-  
+
     public int obtenerCantidadProductosPorSucursal(String codigoSucursal) {
         // Sentencia SQL
         String sql = "SELECT cantProducto FROM admin.Sucursal WHERE Codigo = ?";

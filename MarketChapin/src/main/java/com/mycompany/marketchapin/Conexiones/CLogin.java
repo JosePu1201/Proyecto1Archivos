@@ -82,10 +82,9 @@ public class CLogin {
             CambioFrame nuevo = new CambioFrame(principal, new opcionCajero(principal, usuario, sucursal));
         } else if (puesto.equals("Bodega")) {
             CambioFrame nuevo = new CambioFrame(principal, new Bodega(principal, usuario, sucursal));
-        }else if(puesto.equals("Inventario")){
-            CambioFrame nuevo = new CambioFrame(principal, new Inventario(sucursal, usuario,principal));
-        }
-        else{
+        } else if (puesto.equals("Inventario")) {
+            CambioFrame nuevo = new CambioFrame(principal, new Inventario(sucursal, usuario, principal));
+        } else {
             System.out.println("Puesto no encontrado");
         }
     }

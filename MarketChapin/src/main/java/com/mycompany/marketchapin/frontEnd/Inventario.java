@@ -329,6 +329,7 @@ public class Inventario extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CambioFrame nuevo = new CambioFrame(principal, new Login(principal));
+        Conexion.CerrarConcexion();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -353,9 +354,9 @@ public class Inventario extends javax.swing.JPanel {
                     Conexion.restarCantidadProductoEnBodega(cosProd, cantP);
                     mostrar();
                 } else {
-                   Conexion.actualizarCantidadEnEstanteria(codEstanteNuevo.getSelectedItem().toString(), cosProd, cantP);
-                   Conexion.restarCantidadProductoEnBodega(cosProd, cantP);
-                   mostrar();
+                    Conexion.actualizarCantidadEnEstanteria(codEstanteNuevo.getSelectedItem().toString(), cosProd, cantP);
+                    Conexion.restarCantidadProductoEnBodega(cosProd, cantP);
+                    mostrar();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "La cantidad que deceas trasladar a el estante no esta disponible en bodega");

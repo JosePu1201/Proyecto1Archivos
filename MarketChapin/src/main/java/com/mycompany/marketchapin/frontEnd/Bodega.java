@@ -441,8 +441,8 @@ public class Bodega extends javax.swing.JPanel {
             if (validar()) {
                 nuevo.insertarProductoEnBodega(sucurasl, idProducto, cantidad);
                 obtenerProductos();
-            }else{
-            JOptionPane.showMessageDialog(null, "La sucursal ya llego a su limite de productos");
+            } else {
+                JOptionPane.showMessageDialog(null, "La sucursal ya llego a su limite de productos");
             }
 
         } else {
@@ -585,7 +585,7 @@ public class Bodega extends javax.swing.JPanel {
     }
 
     private boolean validar() {
-        int filas = nuevo.obtenerCantidadFilasPorIdBodega(idBodega)-1;
+        int filas = nuevo.obtenerCantidadFilasPorIdBodega(idBodega) - 1;
         int total = nuevo.obtenerCantidadProductosPorSucursal(sucurasl);
         infoCant.setText("Tienes " + filas + " de " + total + " productos diferentes en la sucursal");
         if (filas < total) {

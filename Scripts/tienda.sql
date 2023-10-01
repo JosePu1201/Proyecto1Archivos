@@ -128,7 +128,7 @@ CREATE TABLE estante.Producto_En_Estanteria(
 CREATE TABLE factura.Venta(
     numeroFactura SERIAL,
     Nombre VARCHAR(50) NOT NULL,
-    Nit VARCHAR(10) NOT NULL,
+    Nit VARCHAR(10),
     Fecha DATE NOT NULL,
     codigoEmpleado VARCHAR(20) NOT NULL,
     TotalSinDescuento DECIMAL(10,2) NOT NULL,

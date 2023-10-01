@@ -7,7 +7,6 @@ package com.mycompany.marketchapin.frontEnd;
 import com.mycompany.marketchapin.Conexiones.CLogin;
 import com.mycompany.marketchapin.Conexiones.CLoginAdmin;
 
-
 /**
  *
  * @author jose
