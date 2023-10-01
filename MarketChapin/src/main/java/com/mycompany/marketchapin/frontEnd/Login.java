@@ -6,15 +6,7 @@ package com.mycompany.marketchapin.frontEnd;
 
 import com.mycompany.marketchapin.Conexiones.CLogin;
 import com.mycompany.marketchapin.Conexiones.CLoginAdmin;
-import com.mycompany.marketchapin.controladores.CambioFrame;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+
 
 /**
  *

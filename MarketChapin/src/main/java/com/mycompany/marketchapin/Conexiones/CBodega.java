@@ -30,6 +30,7 @@ public class CBodega {
     private String password = "jose";
     private Connection conexion;
 
+
     public CBodega(String idSucursal) {
         this.idSucursal = idSucursal;
         try {
@@ -178,7 +179,6 @@ public class CBodega {
             // Procesar los resultados
             if (resultSet.next()) {
                 int cantidadFilas = resultSet.getInt("cantidadFilas")+1;
-                System.out.println("Cantidad de filas para la bodega " + idBodega + ": " + cantidadFilas);
                 return cantidadFilas;
             } else {
                 System.out.println("No se encontraron filas para la bodega: " + idBodega);

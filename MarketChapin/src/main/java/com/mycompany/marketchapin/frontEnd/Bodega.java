@@ -133,7 +133,7 @@ public class Bodega extends javax.swing.JPanel {
 
         cantAumento.setBackground(new java.awt.Color(0, 0, 0));
         cantAumento.setForeground(new java.awt.Color(255, 255, 255));
-        cantAumento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        cantAumento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         cantAumento.setOpaque(false);
         cantAumento.setSelectedTextColor(new java.awt.Color(255, 255, 255));
 
@@ -242,7 +242,7 @@ public class Bodega extends javax.swing.JPanel {
 
         cantidadNuevo.setBackground(new java.awt.Color(0, 0, 0));
         cantidadNuevo.setForeground(new java.awt.Color(255, 255, 255));
-        cantidadNuevo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        cantidadNuevo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         cantidadNuevo.setOpaque(false);
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
@@ -427,7 +427,7 @@ public class Bodega extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        System.out.println("CantidadEnBodega = " + nuevo.obtenerCantidadFilasPorIdBodega(idBodega));
+
 
         /*
         *Verifica que los campos no esten vacios y se pueda hacer la incerscion con r parametros 
@@ -442,7 +442,7 @@ public class Bodega extends javax.swing.JPanel {
                 nuevo.insertarProductoEnBodega(sucurasl, idProducto, cantidad);
                 obtenerProductos();
             }else{
-            JOptionPane.showMessageDialog(null, "LA sucursal ya llego a su limite de productos");
+            JOptionPane.showMessageDialog(null, "La sucursal ya llego a su limite de productos");
             }
 
         } else {
@@ -585,7 +585,7 @@ public class Bodega extends javax.swing.JPanel {
     }
 
     private boolean validar() {
-        int filas = nuevo.obtenerCantidadFilasPorIdBodega(idBodega);
+        int filas = nuevo.obtenerCantidadFilasPorIdBodega(idBodega)-1;
         int total = nuevo.obtenerCantidadProductosPorSucursal(sucurasl);
         infoCant.setText("Tienes " + filas + " de " + total + " productos diferentes en la sucursal");
         if (filas < total) {

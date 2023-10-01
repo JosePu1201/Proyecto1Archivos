@@ -8,6 +8,7 @@ import com.mycompany.marketchapin.frontEnd.Bodega;
 import com.mycompany.marketchapin.frontEnd.Frame;
 import com.mycompany.marketchapin.frontEnd.opcionCajero;
 import com.mycompany.marketchapin.controladores.CambioFrame;
+import com.mycompany.marketchapin.frontEnd.Inventario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -81,7 +82,10 @@ public class CLogin {
             CambioFrame nuevo = new CambioFrame(principal, new opcionCajero(principal, usuario, sucursal));
         } else if (puesto.equals("Bodega")) {
             CambioFrame nuevo = new CambioFrame(principal, new Bodega(principal, usuario, sucursal));
-        } else {
+        }else if(puesto.equals("Inventario")){
+            CambioFrame nuevo = new CambioFrame(principal, new Inventario(sucursal, usuario,principal));
+        }
+        else{
             System.out.println("Puesto no encontrado");
         }
     }

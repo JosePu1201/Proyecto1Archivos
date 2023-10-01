@@ -17,6 +17,7 @@ CREATE TABLE clientes.Cliente (
     Nit VARCHAR(10) NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     GastosEnTienda DECIMAL(10, 2),
+    GastosReset DECIMAL (10,2),
     PRIMARY KEY(Nit)
 );
 
@@ -107,13 +108,14 @@ CREATE TABLE estante.Estanteria(
     idEstante SERIAL,
     idBodega VARCHAR(3) NOT NULL,
     capacidad INT NOT NULL,
+    NumPasillo INT NOT NULL,
     PRIMARY KEY (idEstante),
     FOREIGN KEY (idBodega) REFERENCES bodegaS.Bodega(idBodega)
 );
 
 -- Crear la tabla Producto_En_Estanteria en el esquema "estante"
 CREATE TABLE estante.Producto_En_Estanteria(
-    idProdEstante VARCHAR(5) NOT NULL,
+    idProdEstante SERIAL,
     idEstante INTEGER,
     idProducto INTEGER,
     cant INT NOT NULL,
@@ -272,4 +274,47 @@ SELECT '1B', idProducto, cantidad
 FROM inventarioG.Inventaro
 WHERE idSucursal = '001';
 
+
+-- Nuevos clientes 
+DO $$ 
+DECLARE 
+    nombres TEXT[] := ARRAY['Juan', 'Pedro', 'Maria', 'Isabel', 'Alejandra', 'Maria', 'Juan', 'Alexander', 'Critobal', 'Luis'];
+    nomb_cliente TEXT;
+    nit_cliente TEXT;
+    gastos_cliente DECIMAL;
+BEGIN
+    FOR i IN 1..10 LOOP
+        -- Obtener el nombre en orden secuencial
+        nomb_cliente := nombres[i];
+
+        -- Generar un NIT aleatorio de 10 dígitos
+        nit_cliente := floor(random() * 10000000000)::TEXT;
+
+        -- Generar gastos aleatorios entre 0 y 1000
+        gastos_cliente := (random() * 1000);
+
+        -- Insertar el cliente en la tabla
+        IF nomb_cliente IS NOT NULL THEN
+            EXECUTE 'INSERT INTO clientes.Cliente (Nit, Nombre, GastosEnTienda) VALUES ($1, $2, $3)'
+            USING nit_cliente, nomb_cliente, gastos_cliente;
+        END IF;
+    END LOOP;
+END $$;
+
+INSERT INTO descuentos.Tarjeta (Numero_Tarjeta,Nit_Cliente,Descuento,Puntos,Tipo)
+VALUES ('1000000000','7212621498',5,0,'Comun');
+
+DO $$ 
+DECLARE 
+    i INT;
+    idBodega VARCHAR(3) := '1B';
+BEGIN
+    FOR i IN 1..10 LOOP
+        -- Generar una capacidad aleatoria entre 50 y 200
+        DECLARE capacidad INT := 150;
+
+        -- Insertar la estantería en la tabla
+        INSERT INTO estante.Estanteria (idBodega, capacidad, NumPasillo) VALUES (idBodega, capacidad, i);
+    END LOOP;
+END $$;
 
