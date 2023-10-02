@@ -76,7 +76,9 @@ public class CLogin {
             e.printStackTrace();
         }
     }
-
+    /*
+    *Se va a una vista especifica segun su puesto de trabajo
+    */
     private void cambioFrame(String puesto, String usuario, String sucursal) {
         if (puesto.equals("Cajero")) {
             CambioFrame nuevo = new CambioFrame(principal, new opcionCajero(principal, usuario, sucursal));

@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -20,6 +19,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author jose
+ * Conexion general para todas las acciones del administrador
  */
 public class CAdmin {
 
@@ -35,9 +35,12 @@ public class CAdmin {
             Logger.getLogger(CBodega.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /*
+    *Obtiene el porcentaje de puntos por cada 200 para hacer calculos mas adelante
+    */
     public boolean obtenerDescuentoPorTarjeta(String nit, String numeroTarjeta) {
-        // Sentencia SQL para obtener información de descuento por tarjeta
+        
         String sql = "SELECT Tipo, Descuento FROM descuentos.Tarjeta WHERE Nit_Cliente = ? AND Numero_Tarjeta = ?";
 
         try {
@@ -57,14 +60,17 @@ public class CAdmin {
                 return false;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            System.out.println(e.getSQLState());
             return false;
         }
     }
 
+    /**
+    *obtirene los gastos provisionales del cliente para luego veri
+    * ficar si es apto para una actualizacion o no
+    */
     public BigDecimal obtenerGastosReset(String nit) {
-        // Sentencia SQL para obtener los GastosReset de un cliente
+       
         String sql = "SELECT GastosReset FROM clientes.Cliente WHERE Nit = ?";
 
         try {
@@ -81,14 +87,16 @@ public class CAdmin {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
 
-        return BigDecimal.ZERO; // Retornar BigDecimal.ZERO en caso de error o si no se encuentra el cliente
+        return BigDecimal.ZERO; // Retornar 0  en caso de error o si no se encuentra el cliente
     }
-
+    /**
+     *obtiene el tipo de tarjeta buscnado desde su numero
+     */
     public String obtenerTipoPorTarjeta(String numeroTarjeta) {
-        // Sentencia SQL para obtener el tipo de tarjeta por número de tarjeta
+        
         String sql = "SELECT Tipo FROM descuentos.Tarjeta WHERE Numero_Tarjeta = ?";
 
         try {
@@ -98,7 +106,7 @@ public class CAdmin {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                // La tarjeta existe, obtener el tipo
+                // La tarjeta existe
                 String tipo = resultSet.getString("Tipo");
 
                 System.out.println("Tipo: " + tipo);
@@ -111,13 +119,15 @@ public class CAdmin {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
             return null;
         }
     }
-
+    /*
+    *Actualiza los datos en la tarjeta para una mejor 
+    */
     public void actualizarDatosTarjeta(String numeroTarjeta, String nuevoTipo, int nuevoDescuento) {
-        // Sentencia SQL para actualizar los datos de una tarjeta por su número
+       
         String sql = "UPDATE descuentos.Tarjeta SET Tipo = ?, Descuento = ? WHERE Numero_Tarjeta = ?";
 
         try {
@@ -138,12 +148,14 @@ public class CAdmin {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
     }
-
+    /*
+    *Verifica si el nit esta asociado alguna tajeta
+    */
     public boolean nitAsociadoATarjeta(String nit) {
-        // Sentencia SQL para verificar la asociación entre NIT y tarjeta
+       
         String sql = "SELECT COUNT(*) AS count FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
 
         try {
@@ -160,12 +172,14 @@ public class CAdmin {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return false; // Retorna false en caso de error
     }
-
+    /*
+    *Inserta una nueva tarjeta y devuelve la aceptacion del cambio
+    */
     public boolean insertarTarjeta(String numeroTarjeta, String nitCliente, String nombre, int descuento, int puntos, String tipo) {
         // Sentencia SQL para insertar una nueva tarjeta
         String sql = "INSERT INTO descuentos.Tarjeta (Numero_Tarjeta, Nit_Cliente, Nombre, Descuento, Puntos, Tipo) "
@@ -191,14 +205,16 @@ public class CAdmin {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
             return false;
         }
     }
-
+    /*
+    * devuelve un map de los productos mas vendidos
+    */
     public Map<String, Integer> obtenerTopProductosMasVendidos() {
         Map<String, Integer> topProductos = new LinkedHashMap<>();
-
+        
         String sql = "SELECT p.Nombre, SUM(lp.cantidadVendiad) AS TotalVendido "
                 + "FROM factura.ListaProd lp "
                 + "JOIN prodG.Producto p ON lp.codigoProducto = p.Codigo "
@@ -216,13 +232,16 @@ public class CAdmin {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return topProductos;
     }
+    /*
+    *Obtiene los clientes que mas gastan
+    */
 public Map<String, BigDecimal> obtenerTopClientes() {
-    // Sentencia SQL para obtener el top 10 de clientes por gastos en tienda
+    
     String sql = "SELECT Nit, Nombre, GastosEnTienda FROM clientes.Cliente ORDER BY GastosEnTienda DESC LIMIT 10";
 
     Map<String, BigDecimal> topClientes = new LinkedHashMap<>();
@@ -246,7 +265,7 @@ public Map<String, BigDecimal> obtenerTopClientes() {
         preparedStatement.close();
     } catch (SQLException e) {
         e.printStackTrace();
-        // Manejar la excepción según tus necesidades
+       
     }
 
     return topClientes;
@@ -274,13 +293,15 @@ public Map<String, Double> obtenerTop3SucursalesConIngresos() {
         preparedStatement.close();
     } catch (SQLException e) {
         e.printStackTrace();
-        // Manejar la excepción según tus necesidades
+        
     }
 
     return topSucursales;
 }
 
-
+    /*
+    *Cierra la conexion
+    */
     public void cerrarC() {
         try {
             conexion.close();

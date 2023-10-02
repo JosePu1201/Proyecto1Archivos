@@ -4,13 +4,12 @@
  */
 package com.mycompany.marketchapin.Conexiones;
 
-import java.sql.Array;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +18,8 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author jose
+ * @author jose\
+ * Conexion con la bodega y todas sus acciones pensada para usuarios que solo controlen bodega
  */
 public class CBodega {
 
@@ -72,14 +72,14 @@ public class CBodega {
             preparedStatement.close();
 
         } catch (SQLException e) {
-            // Manejar la excepción según tus necesidades
+            
             e.printStackTrace();
         }
     }
 
     public String obtenerBodegaPorSucursal(String codigoSucursal) {
         String retorno;
-        // Sentencia SQL
+        
         String sql = "SELECT idBodega FROM bodegaS.Bodega WHERE idSucursal = ? LIMIT 1";
         try {
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
@@ -96,7 +96,7 @@ public class CBodega {
             resultSet.close();
             preparedStatement.close();
         } catch (SQLException e) {
-            //e.printStackTrace();
+            
             retorno = null;
         }
 
@@ -105,7 +105,7 @@ public class CBodega {
 
     public void aumentarCantidadEnBodega(String codigoBodega, int codigoProducto, int cantidadAumentar) {
 
-        // Sentencia SQL para aumentar la cantidad
+       
         String sql = "UPDATE bodegaS.inventario_de_Producto_enBodega SET cant = cant + ? WHERE idBodega = ? AND idProducto = ?";
 
         try {
@@ -120,13 +120,13 @@ public class CBodega {
 
             // Verificar si se realizaron actualizaciones
             if (filasAfectadas > 0) {
-                System.out.println("Se aumentó la cantidad en la bodega " + codigoBodega + " para el producto " + codigoProducto);
+                
             } else {
-                System.out.println("No se pudo aumentar la cantidad en la bodega " + codigoBodega + " para el producto " + codigoProducto);
+               
             }
             preparedStatement.close();
         } catch (SQLException e) {
-            //e.printStackTrace();
+            
         }
     }
 
@@ -152,23 +152,21 @@ public class CBodega {
 
                 // Verificar si se realizaron inserciones
                 if (filasAfectadas > 0) {
-                    System.out.println("Se insertó el producto en la bodega " + idBodega + " con ID " + idProducto);
+                   
                 } else {
-                    System.out.println("No se pudo insertar el producto en la bodega " + idBodega + " con ID " + idProducto);
+                    
                 }
                 preparedStatement.close();
             } catch (SQLException e) {
-                // Manejo de excepciones
+                
                 Logger.getLogger(CBodega.class.getName()).log(Level.SEVERE, "Error al insertar producto en la bodega", e);
             }
         } else {
-            // No se encontró una bodega para la sucursal
-            System.out.println("No se encontró una bodega para la sucursal " + codigoSucursal);
+            
         }
     }
 
     public int obtenerCantidadFilasPorIdBodega(String idBodega) {
-        // Sentencia SQL
         String sql = "SELECT COUNT(*) AS cantidadFilas FROM bodegaS.inventario_de_Producto_enBodega WHERE idBodega = ?";
 
         try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
@@ -183,7 +181,7 @@ public class CBodega {
                 int cantidadFilas = resultSet.getInt("cantidadFilas") + 1;
                 return cantidadFilas;
             } else {
-                System.out.println("No se encontraron filas para la bodega: " + idBodega);
+                
                 return 0;
             }
         } catch (SQLException e) {
@@ -193,7 +191,7 @@ public class CBodega {
     }
 
     public int obtenerCantidadProductosPorSucursal(String codigoSucursal) {
-        // Sentencia SQL
+       
         String sql = "SELECT cantProducto FROM admin.Sucursal WHERE Codigo = ?";
 
         try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {

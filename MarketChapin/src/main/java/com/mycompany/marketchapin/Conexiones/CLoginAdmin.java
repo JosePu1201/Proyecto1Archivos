@@ -5,9 +5,7 @@
 package com.mycompany.marketchapin.Conexiones;
 
 import com.mycompany.marketchapin.frontEnd.Admin.Administrador;
-import com.mycompany.marketchapin.frontEnd.Bodega;
 import com.mycompany.marketchapin.frontEnd.Frame;
-import com.mycompany.marketchapin.frontEnd.opcionCajero;
 import com.mycompany.marketchapin.controladores.CambioFrame;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,9 +50,7 @@ public class CLoginAdmin {
             ResultSet resultado = preparedStatement.executeQuery();
 
             // Procesar el resultado de la consulta
-            /*
-            INSERT INTO admin.Administrador (usuario,contrasene)
-VALUES('admin','admin');*/
+            
             if (resultado.next()) {
                 String usuarioCajero = resultado.getString("usuario");
                 String contraBD = resultado.getString("contrasena");
@@ -77,7 +73,9 @@ VALUES('admin','admin');*/
             e.printStackTrace();
         }
     }
-
+    /*
+    *Vista de administrador
+     */
     private void cambioFrame() {
         CambioFrame nuevo = new CambioFrame(principal, new Administrador(principal));
     }

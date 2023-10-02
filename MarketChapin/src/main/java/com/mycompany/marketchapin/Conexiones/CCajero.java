@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author jose
+ * Todas las acciones del cajero codigo puy grnade y tomar en cuenta para muchas validaciones 
  */
 public class CCajero {
 
@@ -40,10 +40,12 @@ public class CCajero {
         }
         this.idBodega = encontrarBodega(idSucursal);
     }
-
+    /*
+    *Busca la bodega y la devuelve como String, devuelve su id
+    */
     public String encontrarBodega(String codigoSucursal) {
         String retorno;
-        // Sentencia SQL
+
         String sql = "SELECT idBodega FROM bodegaS.Bodega WHERE idSucursal = ? LIMIT 1";
         try {
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
@@ -66,9 +68,11 @@ public class CCajero {
 
         return retorno;
     }
-
+    /*
+    *Obtiene todos los productos en bodega
+    */
     public void obtenerCantidadProductosEnBodega(DefaultTableModel modelo) {
-        // Sentencia SQL
+        
         modelo.setRowCount(0);
         String sql = "SELECT p.Codigo AS codigo_producto, p.Nombre AS nombre_producto, SUM(pe.cant) AS cantidad_total "
                 + "FROM estante.Producto_En_Estanteria pe "
@@ -95,14 +99,16 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
     }
-
+    /*
+    *Obtiene el total de productos de una sucursal y luego en base a una cantidad de compra este va reduciendo de estanteria en estanteria 
+    */
     public boolean restarCantidadProductosEnEstanterias(int idProducto, int cantidad, ArrayList<String> info) {
         boolean bandera = false;
         try {
-            // Sentencia SQL para obtener la cantidad total de un producto en todas las estanterías
+           
             String sqlCantidadTotal = "SELECT SUM(cant) AS cantidad_total FROM estante.Producto_En_Estanteria WHERE idProducto = ?";
             PreparedStatement preparedStatementCantidadTotal = conexion.prepareStatement(sqlCantidadTotal);
             preparedStatementCantidadTotal.setInt(1, idProducto);
@@ -167,13 +173,14 @@ public class CCajero {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
         return bandera;
     }
-
+    /*
+    *Crea nueva factura 
+    */
     public int insertarNuevaFactura(String nombre, Date fecha, String codigoEmpleado, BigDecimal totalSinDescuento, BigDecimal totalConDescuento) {
-        // Sentencia SQL para insertar la nueva factura
         String sql = "INSERT INTO factura.Venta (Nombre, Fecha, codigoEmpleado, TotalSinDescuento, TotalConDescuento) "
                 + "VALUES (?, ?, ?, ?, ?) RETURNING numeroFactura";
 
@@ -196,14 +203,14 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return -1; // Retorna -1 en caso de error
     }
 
     public boolean existeNit(String nit) {
-        // Sentencia SQL para verificar si el NIT ya existe
+        
         String sql = "SELECT COUNT(*) AS count FROM clientes.Cliente WHERE Nit = ?";
 
         try {
@@ -219,7 +226,7 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return false; // Retorna false en caso de error
@@ -227,7 +234,7 @@ public class CCajero {
 
     public void insertarNuevoCliente(String nombre, String nit) {
         // Verificar si el NIT ya existe antes de insertar el nuevo cliente
-        // Sentencia SQL para insertar un nuevo cliente
+
         String sql = "INSERT INTO clientes.Cliente (Nit, Nombre, GastosEnTienda) VALUES (?, ?, 0)";
 
         try {
@@ -240,7 +247,7 @@ public class CCajero {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
 
     }
@@ -258,7 +265,7 @@ public class CCajero {
         // Calcular el subtotal
         BigDecimal subtotal = precioProducto.multiply(new BigDecimal(cantidadVendida));
 
-        // Sentencia SQL para insertar una nueva entrada en ListaProd
+        
         String sql = "INSERT INTO factura.ListaProd (cantidadVendiad, codigoProducto, numeroFactura, subTotal) VALUES (?, ?, ?, ?)";
 
         try {
@@ -281,7 +288,7 @@ public class CCajero {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
 
         return false; // Retorna false en caso de error
@@ -313,7 +320,7 @@ public class CCajero {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+          
         }
 
         return null; // Retorna null si hay un error o el producto no existe
@@ -321,7 +328,7 @@ public class CCajero {
 
 // Función para obtener el precio de un producto
     private BigDecimal obtenerPrecioProducto(int codigoProducto) {
-        // Sentencia SQL para obtener el precio del producto
+        
         String sql = "SELECT Precio FROM prodG.Producto WHERE Codigo = ?";
 
         try {
@@ -335,14 +342,14 @@ public class CCajero {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
 
         return null; // Retorna null si hay un error o el producto no existe
     }
 
     public boolean eliminarFactura(int numeroFactura) {
-        // Sentencia SQL para eliminar una factura de la tabla Venta
+       
         String sqlEliminarFactura = "DELETE FROM factura.Venta WHERE numeroFactura = ?";
 
         try {
@@ -355,14 +362,14 @@ public class CCajero {
             return filasAfectadas > 0; // Retorna true si se eliminó correctamente
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return false; // Retorna false en caso de error
     }
 
     public void insertarProductoEnEstanteria(int idEstante, int idProducto, int cantidad) {
-        // Sentencia SQL para insertar un nuevo producto en la estantería
+       
         String sql = "INSERT INTO estante.Producto_En_Estanteria (idEstante, idProducto, cant) VALUES (?, ?, ?)";
 
         try {
@@ -384,12 +391,12 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
     }
 
     public boolean productoEnEstanteriaExiste(String idEstante, int idProducto) {
-        // Sentencia SQL para verificar la existencia del producto en la estantería
+       
         String sql = "SELECT COUNT(*) AS count "
                 + "FROM estante.Producto_En_Estanteria "
                 + "WHERE idEstante = CAST(? AS INTEGER) AND idProducto = ?";
@@ -427,7 +434,6 @@ public class CCajero {
         // Calcular la nueva cantidad sumando la cantidad actual con la cantidad a incrementar
         int nuevaCantidad = cantidadActual + cantidadAIncrementar;
 
-        // Sentencia SQL para actualizar la cantidad de productos en la estantería
         String sql = "UPDATE estante.Producto_En_Estanteria "
                 + "SET cant = ? "
                 + "WHERE idEstante = CAST(? AS INTEGER) AND idProducto = ?";
@@ -455,7 +461,7 @@ public class CCajero {
     }
 
     private int obtenerCantidadEnEstanteria(String idEstante, int idProducto) {
-        // Sentencia SQL para obtener la cantidad de productos en la estantería
+        
         String sql = "SELECT cant "
                 + "FROM estante.Producto_En_Estanteria "
                 + "WHERE idEstante = CAST(? AS INTEGER) AND idProducto = ?";
@@ -479,7 +485,7 @@ public class CCajero {
     }
 
     public BigDecimal sumarSubtotalesPorFactura(int numeroFactura) {
-        // Sentencia SQL para obtener la suma de subtotales por número de factura
+       
         String sql = "SELECT SUM(subTotal) AS sumaSubtotales FROM factura.ListaProd WHERE numeroFactura = ?";
 
         try {
@@ -495,14 +501,14 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return BigDecimal.ZERO; // Retorna BigDecimal.ZERO si hay un error o no se encuentra ninguna factura
     }
 
     public boolean obtenerTarjetaAsociada(String nit, String tarjetaAsociada) {
-        // Sentencia SQL para obtener el número de tarjeta asociado al NIT
+        
         String sql = "SELECT Numero_Tarjeta FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
 
         try {
@@ -525,7 +531,7 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         // Indicar que el NIT no está asociado a una tarjeta
@@ -533,7 +539,7 @@ public class CCajero {
     }
 
     public boolean actualizarFactura(int numeroFactura, BigDecimal totalSinDescuento, BigDecimal totalConDescuento) {
-        // Sentencia SQL para actualizar una factura
+        
         String sql = "UPDATE factura.Venta SET TotalSinDescuento = ?, TotalConDescuento = ? WHERE numeroFactura = ?";
 
         try {
@@ -550,13 +556,13 @@ public class CCajero {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
             return false;
         }
     }
 
     public boolean actualizarGastosCliente(String nit, BigDecimal gastosEnTienda, BigDecimal gastosReset) {
-        // Sentencia SQL para actualizar los gastos de un cliente
+        
         String sql = "UPDATE clientes.Cliente SET GastosEnTienda = GastosEnTienda + ?, GastosReset = GastosReset + ? WHERE Nit = ?";
 
         try {
@@ -573,13 +579,13 @@ public class CCajero {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
             return false;
         }
     }
 
     public int obtenerDescuentoPorNit(String nit) {
-        // Sentencia SQL para obtener el descuento de una tarjeta por NIT
+        
         String sql = "SELECT Descuento FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
 
         try {
@@ -596,14 +602,14 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+           
         }
 
         return 0; // Retornar 0 en caso de error o si no se encuentra la tarjeta
     }
 
     public void actualizarPuntosTarjeta(String nit, int puntosASumar) {
-        // Sentencia SQL para actualizar los puntos de una tarjeta por NIT
+       
         String sql = "UPDATE descuentos.Tarjeta SET Puntos = Puntos + ? WHERE Nit_Cliente = ?";
 
         try {
@@ -616,12 +622,12 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
     }
 
     public int obtenerPuntosTarjeta(String nit) {
-        // Sentencia SQL para obtener los puntos de una tarjeta por NIT
+      
         String sql = "SELECT Puntos FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
 
         try {
@@ -638,13 +644,13 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+         
         }
 
         return 0; // Retornar 0 en caso de error o si no se encuentra la tarjeta
     }
     public void sumarIngresosSucursal(String codigoSucursal, BigDecimal nuevosIngresos) {
-        // Sentencia SQL para sumar los nuevos ingresos a la sucursal
+       
         String sqlSumarIngresos = "UPDATE admin.Sucursal SET Ingresos = Ingresos + ? WHERE Codigo = ?";
 
         try {
@@ -657,7 +663,7 @@ public class CCajero {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+            
         }
     }
 

@@ -418,17 +418,15 @@ public class Bodega extends javax.swing.JPanel {
         // TODO add your handling code here:
         jPanel1.setVisible(true);
         jPanel2.setVisible(false);
-        aumentarProdBodga();
+        aumentarProdBodga(); // hace intercambio de paneles para mostrar formulariod de paneles para aumentar solo cantidad
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         CambioFrame cambio = new CambioFrame(principal, new Login(principal));
-        nuevo.cerrarConexion();
+        nuevo.cerrarConexion(); // cerrar cesion
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
-
         /*
         *Verifica que los campos no esten vacios y se pueda hacer la incerscion con r parametros 
         *sucursal
@@ -462,12 +460,12 @@ public class Bodega extends javax.swing.JPanel {
     private void idProdAumetnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idProdAumetnoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idProdAumetnoActionPerformed
-
+    /*
+    *Aumenta la cantidad de un prducto en bodega
+    */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
         int cantidad = Integer.parseInt(cantAumento.getText());
         int codigoProd = Integer.parseInt(idProdAumetno.getSelectedItem().toString());
-        System.out.println("la cantidad es: " + cantidad + "\tEl codigo es:" + codigoProd + "\t" + idBodega);
         nuevo.aumentarCantidadEnBodega(idBodega, codigoProd, cantidad);
         obtenerProductos();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -552,7 +550,7 @@ public class Bodega extends javax.swing.JPanel {
             idProdAumetno.addItem(string);
         }
     }
-
+    //Eliminia los productos en bodega para no repetir y tener conflictos
     private ArrayList<String> nuevo(ArrayList<String> lista1, ArrayList<String> lista2) {
         ArrayList<String> nuevo = new ArrayList<>();
         for (String string : lista1) {

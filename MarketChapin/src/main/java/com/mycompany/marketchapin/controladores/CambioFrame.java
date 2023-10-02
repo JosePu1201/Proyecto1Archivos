@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 /**
  *
  * @author jose
+ * hace cambios usando el mismo Jframe y manipula los paneles 
+ * 
  */
 public class CambioFrame {
 

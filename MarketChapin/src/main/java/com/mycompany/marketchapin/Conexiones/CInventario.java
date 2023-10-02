@@ -4,7 +4,6 @@
  */
 package com.mycompany.marketchapin.Conexiones;
 
-import static java.lang.String.valueOf;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +16,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -45,7 +43,6 @@ public class CInventario {
 
     public String encontrarBodega(String codigoSucursal) {
         String retorno;
-        // Sentencia SQL
         String sql = "SELECT idBodega FROM bodegaS.Bodega WHERE idSucursal = ? LIMIT 1";
         try {
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
@@ -73,7 +70,6 @@ public class CInventario {
         // Limpiar el combo antes de agregar nuevos elementos
         comboBoxEstanterias.removeAllItems();
         estanterias.clear();
-        // Sentencia SQL para obtener las estanterías asociadas a la bodega
         String sql = "SELECT idEstante FROM estante.Estanteria WHERE idBodega = ?";
 
         try {
@@ -91,7 +87,6 @@ public class CInventario {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
         }
     }
 
@@ -101,7 +96,6 @@ public class CInventario {
         modelo.addColumn("Cantidad");
         tabla.setModel(modelo);
 
-        // Sentencia SQL para obtener los productos en la estantería
         String sql = "SELECT p.Nombre, pe.cant "
                 + "FROM estante.Producto_En_Estanteria pe "
                 + "JOIN prodG.Producto p ON pe.idProducto = p.Codigo "
@@ -134,7 +128,6 @@ public class CInventario {
         prodEnBodega.clear();
         productos.setModel(modelo);
 
-        // Sentencia SQL
         String sql = "SELECT prodG.Producto.Codigo, prodG.Producto.Nombre, invBodega.cant "
                 + "FROM bodegaS.inventario_de_Producto_enBodega AS invBodega "
                 + "JOIN prodG.Producto ON invBodega.idProducto = prodG.Producto.Codigo "
@@ -159,13 +152,13 @@ public class CInventario {
             preparedStatement.close();
 
         } catch (SQLException e) {
-            // Manejar la excepción según tus necesidades
+
             e.printStackTrace();
         }
     }
 
     public void insertarProductoEnEstanteria(int idEstante, int idProducto, int cantidad) {
-        // Sentencia SQL para insertar un nuevo producto en la estantería
+
         String sql = "INSERT INTO estante.Producto_En_Estanteria (idEstante, idProducto, cant) VALUES (?, ?, ?)";
 
         try {
@@ -187,12 +180,11 @@ public class CInventario {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según tus necesidades
+
         }
     }
 
     public boolean productoEnEstanteriaExiste(String idEstante, int idProducto) {
-        // Sentencia SQL para verificar la existencia del producto en la estantería
         String sql = "SELECT COUNT(*) AS count "
                 + "FROM estante.Producto_En_Estanteria "
                 + "WHERE idEstante = CAST(? AS INTEGER) AND idProducto = ?";
@@ -230,7 +222,6 @@ public class CInventario {
         // Calcular la nueva cantidad sumando la cantidad actual con la cantidad a incrementar
         int nuevaCantidad = cantidadActual + cantidadAIncrementar;
 
-        // Sentencia SQL para actualizar la cantidad de productos en la estantería
         String sql = "UPDATE estante.Producto_En_Estanteria "
                 + "SET cant = ? "
                 + "WHERE idEstante = CAST(? AS INTEGER) AND idProducto = ?";
@@ -258,7 +249,6 @@ public class CInventario {
     }
 
     private int obtenerCantidadEnEstanteria(String idEstante, int idProducto) {
-        // Sentencia SQL para obtener la cantidad de productos en la estantería
         String sql = "SELECT cant "
                 + "FROM estante.Producto_En_Estanteria "
                 + "WHERE idEstante = CAST(? AS INTEGER) AND idProducto = ?";
@@ -284,7 +274,6 @@ public class CInventario {
     public int obtenerNumeroPasillo(String idEstante) {
         int numeroPasillo = -1;  // Valor por defecto en caso de no encontrar el número de pasillo
 
-        // Sentencia SQL para obtener el número de pasillo
         String sql = "SELECT NumPasillo FROM estante.Estanteria WHERE idEstante = ?";
 
         try {
@@ -300,7 +289,6 @@ public class CInventario {
             resultSet.close();
             preparedStatement.close();
         } catch (SQLException e) {
-            // Manejar la excepción según tus necesidades
             e.printStackTrace();
         }
 
@@ -310,7 +298,6 @@ public class CInventario {
     public int obtenerCantidadProductoEnBodega(int idProducto) {
         int cantidad = -1;  // Valor por defecto en caso de no encontrar la cantidad
 
-        // Sentencia SQL para obtener la cantidad del producto en la bodega
         String sql = "SELECT cant FROM bodegaS.inventario_de_Producto_enBodega WHERE idBodega = ? AND idProducto = ?";
 
         try {
@@ -327,7 +314,7 @@ public class CInventario {
             resultSet.close();
             preparedStatement.close();
         } catch (SQLException e) {
-            // Manejar la excepción según tus necesidades
+
             e.printStackTrace();
         }
 
@@ -335,7 +322,6 @@ public class CInventario {
     }
 
     public void restarCantidadProductoEnBodega(int idProducto, int cantidadARestar) {
-        // Sentencia SQL para actualizar la cantidad del producto en la bodega
         String sql = "UPDATE bodegaS.inventario_de_Producto_enBodega SET cant = cant - ? WHERE idBodega = ? AND idProducto = ?";
 
         try {
