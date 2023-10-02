@@ -28,6 +28,8 @@ public class Venta extends javax.swing.JPanel {
     private Date fecha;
     private ArrayList<String> datosEliminadosEstante = new ArrayList<>();
     private double total;
+    private double totalDescuento;
+    private String tarjeta;
 
     /**
      * Creates new form Venta
@@ -42,6 +44,7 @@ public class Venta extends javax.swing.JPanel {
         conexion = new CCajero(sucursal);
         jPanel2.setVisible(false);
         vistasInicio();
+        jPanel5.setVisible(true);
     }
 
     /**
@@ -78,17 +81,16 @@ public class Venta extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         terminar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        aplicarDes = new javax.swing.JButton();
-        panelDes = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jButton7 = new javax.swing.JButton();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         tot = new javax.swing.JLabel();
+        areaDescuentos = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         jLabel12.setText("jLabel12");
@@ -288,94 +290,6 @@ public class Venta extends javax.swing.JPanel {
             }
         });
 
-        aplicarDes.setBackground(new java.awt.Color(255, 255, 255));
-        aplicarDes.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        aplicarDes.setForeground(new java.awt.Color(0, 0, 0));
-        aplicarDes.setText("Aplicar descuento");
-        aplicarDes.setOpaque(false);
-        aplicarDes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aplicarDesActionPerformed(evt);
-            }
-        });
-
-        panelDes.setOpaque(false);
-
-        jLabel11.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("No.Tarjeta");
-
-        jButton7.setBackground(new java.awt.Color(255, 255, 255));
-        jButton7.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(0, 0, 0));
-        jButton7.setText("Verificar");
-        jButton7.setOpaque(false);
-
-        jLabel13.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("Puntos disponibles:");
-
-        jLabel14.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel14.setText("Puntos a utilizar");
-
-        jButton8.setBackground(new java.awt.Color(255, 255, 255));
-        jButton8.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(0, 0, 0));
-        jButton8.setText("Agregar descuento");
-        jButton8.setOpaque(false);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelDesLayout = new javax.swing.GroupLayout(panelDes);
-        panelDes.setLayout(panelDesLayout);
-        panelDesLayout.setHorizontalGroup(
-            panelDesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDesLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField1))
-                    .addGroup(panelDesLayout.createSequentialGroup()
-                        .addComponent(jButton7)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel13)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelDesLayout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextField4)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton8)
-                .addGap(57, 57, 57))
-        );
-        panelDesLayout.setVerticalGroup(
-            panelDesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         jButton6.setBackground(new java.awt.Color(255, 255, 255));
         jButton6.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(0, 0, 0));
@@ -390,6 +304,105 @@ public class Venta extends javax.swing.JPanel {
         tot.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
         tot.setForeground(new java.awt.Color(0, 0, 0));
         tot.setText("Total:");
+
+        areaDescuentos.setOpaque(false);
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("Acompular puntos");
+        jButton1.setOpaque(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
+        jButton3.setText("Canjear punto");
+        jButton3.setOpaque(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jPanel5.setOpaque(false);
+
+        jLabel11.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("Cantidad de puntos total: ");
+
+        jLabel13.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Cantidad de puntos a canjear: ");
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setFont(new java.awt.Font("C059", 1, 18)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 0, 0));
+        jButton5.setText("Aplicar descuento");
+        jButton5.setOpaque(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(31, 31, 31)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5))))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout areaDescuentosLayout = new javax.swing.GroupLayout(areaDescuentos);
+        areaDescuentos.setLayout(areaDescuentosLayout);
+        areaDescuentosLayout.setHorizontalGroup(
+            areaDescuentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaDescuentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(areaDescuentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+        );
+        areaDescuentosLayout.setVerticalGroup(
+            areaDescuentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaDescuentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(areaDescuentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(areaDescuentosLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(16, 16, 16)
+                        .addComponent(jButton3))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -412,17 +425,9 @@ public class Venta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(panelDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jButton6)
-                                        .addGap(59, 59, 59)
-                                        .addComponent(aplicarDes))
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,7 +442,11 @@ public class Venta extends javax.swing.JPanel {
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(94, 94, 94)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton6)
+                                .addGap(79, 79, 79)
+                                .addComponent(areaDescuentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(69, 69, 69))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -476,21 +485,19 @@ public class Venta extends javax.swing.JPanel {
                 .addComponent(tot)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(aplicarDes)
-                        .addComponent(jButton6))
-                    .addComponent(panelDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton6)
+                    .addComponent(areaDescuentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(terminar)
                     .addComponent(jButton4))
                 .addGap(62, 62, 62))
         );
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 1180, 510));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 1180, 520));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/marketchapin/frontEnd/imagenes/a55c46bb2134a99274883401ccc1f567.jpg"))); // NOI18N
-        add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 660));
+        add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 680));
     }// </editor-fold>//GEN-END:initComponents
 
     private void agregarAFAcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarAFAcActionPerformed
@@ -505,8 +512,8 @@ public class Venta extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(null, "uno de los campos para agregar un nuevo producto esta vacio");
         }
-        
-        tot.setText("Total: "+conexion.sumarSubtotalesPorFactura(numFactura));
+
+        tot.setText("Total: " + conexion.sumarSubtotalesPorFactura(numFactura));
         total = conexion.sumarSubtotalesPorFactura(numFactura).doubleValue();
     }//GEN-LAST:event_agregarAFAcActionPerformed
 
@@ -546,14 +553,20 @@ public class Venta extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        aplicarDes.setVisible(true);
+        totalDescuento = total;
         agregarAFAc.setEnabled(false);
         terminar.setVisible(true);
+        if (nit.equalsIgnoreCase("cf")) {
+
+        } else {
+            if (conexion.obtenerTarjetaAsociada(nit, tarjeta)) {
+                areaDescuentos.setVisible(true);
+                jPanel5.setVisible(false);
+            } else {
+
+            }
+        }
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -580,18 +593,63 @@ public class Venta extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void terminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terminarActionPerformed
+        if (conexion.actualizarFactura(numFactura, BigDecimal.valueOf(total), BigDecimal.valueOf(totalDescuento))) {
+            if (nit.equalsIgnoreCase("cf")) {
+                conexion.sumarIngresosSucursal(sucursal, BigDecimal.valueOf(totalDescuento));
+            } else {
+                if (conexion.actualizarGastosCliente(nit, BigDecimal.valueOf(totalDescuento), BigDecimal.valueOf(totalDescuento))) {
+                    conexion.sumarIngresosSucursal(sucursal, BigDecimal.valueOf(totalDescuento));
+                    JOptionPane.showMessageDialog(null, "Venta realizada con exito");
+                }
+            }
+
+        } else {
+            System.out.println("algo salio mal");
+        }
         CambioFrame nuevo = new CambioFrame(principal, cajero);
     }//GEN-LAST:event_terminarActionPerformed
 
-    private void aplicarDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aplicarDesActionPerformed
-        panelDes.setVisible(true);
-    }//GEN-LAST:event_aplicarDesActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jPanel5.setVisible(true);
+        jButton1.setEnabled(false);
+        int puntosDisponibles = conexion.obtenerPuntosTarjeta(nit);
+        int totalS = (int) total;
+        jLabel11.setText("Tienes un total de puntos de: " + puntosDisponibles);
+        if (totalS > puntosDisponibles) {
+            for (int i = 1; i <= puntosDisponibles; i++) {
+                jComboBox1.addItem(i + "");
+            }
+        } else {
+            for (int i = 1; i <= totalS; i++) {
+                jComboBox1.addItem(i + "");
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        totalDescuento = total;
+        int descuento = conexion.obtenerDescuentoPorNit(nit);
+        int puntos = (int) ((totalDescuento / 200) * descuento);
+        conexion.actualizarPuntosTarjeta(nit, puntos);
+        JOptionPane.showMessageDialog(null, "Se agregaron: " + puntos + " puntos a tu tarjeta");
+        areaDescuentos.setVisible(false);
+        jButton1.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (!jComboBox1.getSelectedItem().toString().isEmpty()) {
+            int puntos = Integer.parseInt(jComboBox1.getSelectedItem().toString());
+            totalDescuento = total - puntos;
+            conexion.actualizarPuntosTarjeta(nit, -puntos);
+            areaDescuentos.setVisible(true);
+            jButton4.setVisible(false);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
     public void vistasInicio() {
         terminar.setVisible(false);
-        aplicarDes.setVisible(false);
-        panelDes.setVisible(false);        
-        jLabel3.setText("Sucursal: "+sucursal);
-        jLabel8.setText("Usuario: "+ usuario);
+        areaDescuentos.setVisible(false);
+        jLabel3.setText("Sucursal: " + sucursal);
+        jLabel8.setText("Usuario: " + usuario);
     }
 
     private void info(int fact, String fecha) {
@@ -605,23 +663,22 @@ public class Venta extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable DetalleFactura;
     private javax.swing.JButton agregarAFAc;
-    private javax.swing.JButton aplicarDes;
+    private javax.swing.JPanel areaDescuentos;
     private javax.swing.JFormattedTextField cantProd;
     private javax.swing.JFormattedTextField codProd;
     private javax.swing.JLabel fondo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -632,12 +689,12 @@ public class Venta extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField nitE;
     private javax.swing.JTextField nomE;
-    private javax.swing.JPanel panelDes;
     private javax.swing.JButton terminar;
     private javax.swing.JLabel tot;
     // End of variables declaration//GEN-END:variables

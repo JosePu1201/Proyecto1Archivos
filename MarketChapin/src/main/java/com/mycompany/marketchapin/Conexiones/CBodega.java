@@ -133,7 +133,9 @@ public class CBodega {
     public void insertarProductoEnBodega(String codigoSucursal, int idProducto, int cantidad) {
         // Obtener el ID de la bodega para la sucursal dada
         String idBodega = obtenerBodegaPorSucursal(codigoSucursal);
-
+        System.out.println("idBodega: "+idBodega);
+        System.out.println("idProcudto:" +idProducto);
+        System.out.println("cantida: "+cantidad);
         // Verificar si se encontró una bodega para la sucursal
         if (idBodega != null) {
             // Sentencia SQL para la inserción

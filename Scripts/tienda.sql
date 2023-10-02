@@ -7,7 +7,6 @@ CREATE SCHEMA admin;
 CREATE SCHEMA prodG;
 CREATE SCHEMA factura;
 CREATE SCHEMA estante;
-CREATE SCHEMA inventarioG;
 CREATE SCHEMA bodegaS;
 CREATE SCHEMA clientes;
 CREATE SCHEMA descuentos;
@@ -74,16 +73,6 @@ CREATE TABLE admin.Empleado(
     FOREIGN KEY (codigoSucursal) REFERENCES admin.Sucursal(Codigo)
 );
 
--- Crear la tabla Inventaro en el esquema "inventarioG"
-CREATE TABLE inventarioG.Inventaro(
-    idInventario SERIAL,
-    idSucursal VARCHAR(4) NOT NULL,
-    idProducto INTEGER,
-    cantidad INT NOT NULL,
-    PRIMARY KEY (idInventario),
-    FOREIGN KEY (idSucursal) REFERENCES admin.Sucursal(Codigo),
-    FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo)
-);
 
 -- Crear la tabla Bodega en el esquema "bodegaS"
 CREATE TABLE bodegaS.Bodega(
@@ -95,10 +84,11 @@ CREATE TABLE bodegaS.Bodega(
 
 -- Crear la tabla inventario_de_Producto_enBodega en el esquema "bodegaS"
 CREATE TABLE bodegaS.inventario_de_Producto_enBodega(
+    idInventarioBodega SERIAL,
     idBodega VARCHAR(3) NOT NULL,
     idProducto INTEGER,
     cant INT,
-    PRIMARY KEY (idProducto),
+    PRIMARY KEY (idInventarioBodega),
     FOREIGN KEY (idBodega) REFERENCES bodegaS.Bodega(idBodega),
     FOREIGN KEY (idProducto) REFERENCES prodG.Producto(Codigo)
 );
@@ -145,7 +135,7 @@ CREATE TABLE factura.ListaProd(
     numeroFactura INTEGER,
     subTotal DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (codigoLista),
-    FOREIGN KEY (numeroFactura) REFERENCES factura.Venta(numeroFactura),
+    FOREIGN KEY (numeroFactura) REFERENCES factura.Venta(numeroFactura) ON DELETE CASCADE,
     FOREIGN KEY (codigoProducto) REFERENCES prodG.Producto(Codigo)
 );
 
@@ -248,31 +238,10 @@ VALUES
 INSERT INTO admin.Administrador (usuario, contrasena)
 VALUES ('admin', 'admin');
 
-DO $$
-DECLARE
-    producto_id INTEGER;
-    cantidad INTEGER;
-BEGIN
-    FOR i IN 1..50 LOOP
-        -- Genera un producto_id aleatorio entre 1 y 150
-        producto_id := i;
 
-        -- Genera una cantidad aleatoria entre 1 y 20
-        cantidad := floor(random() * 20) + 1;
-
-        -- Inserta el registro en la tabla inventarioG.Inventaro
-        INSERT INTO inventarioG.Inventaro (idSucursal, idProducto, cantidad)
-        VALUES ('001', producto_id, cantidad);
-    END LOOP;
-END $$;
 
 INSERT INTO bodegaS.Bodega (idBodega, idSucursal)
 VALUES ('1B', '001');
-
-INSERT INTO bodegaS.inventario_de_Producto_enBodega (idBodega, idProducto, cant)
-SELECT '1B', idProducto, cantidad
-FROM inventarioG.Inventaro
-WHERE idSucursal = '001';
 
 
 -- Nuevos clientes 
@@ -295,26 +264,63 @@ BEGIN
 
         -- Insertar el cliente en la tabla
         IF nomb_cliente IS NOT NULL THEN
-            EXECUTE 'INSERT INTO clientes.Cliente (Nit, Nombre, GastosEnTienda) VALUES ($1, $2, $3)'
-            USING nit_cliente, nomb_cliente, gastos_cliente;
+            EXECUTE 'INSERT INTO clientes.Cliente (Nit, Nombre, GastosEnTienda,GastosReset) VALUES ($1, $2, $3, $4)'
+            USING nit_cliente, nomb_cliente, gastos_cliente,gastos_cliente;
         END IF;
     END LOOP;
 END $$;
 
 INSERT INTO descuentos.Tarjeta (Numero_Tarjeta,Nit_Cliente,Descuento,Puntos,Tipo)
-VALUES ('1000000000','7212621498',5,0,'Comun');
+VALUES ('1000000000','7553717474',5,0,'Comun');
+
 
 DO $$ 
 DECLARE 
     i INT;
     idBodega VARCHAR(3) := '1B';
+    capacidad INT;
 BEGIN
     FOR i IN 1..10 LOOP
         -- Generar una capacidad aleatoria entre 50 y 200
-        DECLARE capacidad INT := 150;
+        capacidad := floor(random() * (200 - 50 + 1) + 50);
 
         -- Insertar la estantería en la tabla
         INSERT INTO estante.Estanteria (idBodega, capacidad, NumPasillo) VALUES (idBodega, capacidad, i);
     END LOOP;
 END $$;
 
+INSERT INTO bodegaS.Bodega (idBodega, idSucursal)
+VALUES ('2B', '002');
+
+INSERT INTO bodegaS.Bodega (idBodega, idSucursal)
+VALUES ('3B', '003');
+
+DO $$ 
+DECLARE 
+    i INT;
+    idBodega VARCHAR(3) := '2B';
+    capacidad INT;
+BEGIN
+    FOR i IN 1..10 LOOP
+        -- Generar una capacidad aleatoria entre 50 y 200
+        capacidad := floor(random() * (200 - 50 + 1) + 50);
+
+        -- Insertar la estantería en la tabla
+        INSERT INTO estante.Estanteria (idBodega, capacidad, NumPasillo) VALUES (idBodega, capacidad, i);
+    END LOOP;
+END $$;
+
+DO $$ 
+DECLARE 
+    i INT;
+    idBodega VARCHAR(3) := '3B';
+    capacidad INT;
+BEGIN
+    FOR i IN 1..10 LOOP
+        -- Generar una capacidad aleatoria entre 50 y 200
+        capacidad := floor(random() * (200 - 50 + 1) + 50);
+
+        -- Insertar la estantería en la tabla
+        INSERT INTO estante.Estanteria (idBodega, capacidad, NumPasillo) VALUES (idBodega, capacidad, i);
+    END LOOP;
+END $$;

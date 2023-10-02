@@ -4,7 +4,7 @@
  */
 package com.mycompany.marketchapin.Conexiones;
 
-import static com.mycompany.marketchapin.MarketChapin.conexion;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

@@ -477,7 +477,8 @@ public class CCajero {
             return -1; // Indicar un error
         }
     }
-        public BigDecimal sumarSubtotalesPorFactura(int numeroFactura) {
+
+    public BigDecimal sumarSubtotalesPorFactura(int numeroFactura) {
         // Sentencia SQL para obtener la suma de subtotales por número de factura
         String sql = "SELECT SUM(subTotal) AS sumaSubtotales FROM factura.ListaProd WHERE numeroFactura = ?";
 
@@ -498,6 +499,166 @@ public class CCajero {
         }
 
         return BigDecimal.ZERO; // Retorna BigDecimal.ZERO si hay un error o no se encuentra ninguna factura
+    }
+
+    public boolean obtenerTarjetaAsociada(String nit, String tarjetaAsociada) {
+        // Sentencia SQL para obtener el número de tarjeta asociado al NIT
+        String sql = "SELECT Numero_Tarjeta FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
+
+        try {
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setString(1, nit);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Si existe una tarjeta asociada, obtener el número de tarjeta
+                String numeroTarjeta = resultSet.getString("Numero_Tarjeta");
+
+                // Almacenar el número de tarjeta en el arreglo (segundo parámetro)
+                tarjetaAsociada = numeroTarjeta;
+
+                // Indicar que el NIT está asociado a una tarjeta
+                return true;
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+        }
+
+        // Indicar que el NIT no está asociado a una tarjeta
+        return false;
+    }
+
+    public boolean actualizarFactura(int numeroFactura, BigDecimal totalSinDescuento, BigDecimal totalConDescuento) {
+        // Sentencia SQL para actualizar una factura
+        String sql = "UPDATE factura.Venta SET TotalSinDescuento = ?, TotalConDescuento = ? WHERE numeroFactura = ?";
+
+        try {
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setBigDecimal(1, totalSinDescuento);
+            preparedStatement.setBigDecimal(2, totalConDescuento);
+            preparedStatement.setInt(3, numeroFactura);
+
+            // Ejecutar la consulta de actualización
+            int filasAfectadas = preparedStatement.executeUpdate();
+
+            // Verificar si la actualización fue exitosa (una fila afectada indica éxito)
+            return filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+            return false;
+        }
+    }
+
+    public boolean actualizarGastosCliente(String nit, BigDecimal gastosEnTienda, BigDecimal gastosReset) {
+        // Sentencia SQL para actualizar los gastos de un cliente
+        String sql = "UPDATE clientes.Cliente SET GastosEnTienda = GastosEnTienda + ?, GastosReset = GastosReset + ? WHERE Nit = ?";
+
+        try {
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setBigDecimal(1, gastosEnTienda);
+            preparedStatement.setBigDecimal(2, gastosReset);
+            preparedStatement.setString(3, nit);
+
+            // Ejecutar la consulta de actualización
+            int filasAfectadas = preparedStatement.executeUpdate();
+
+            // Verificar si la actualización fue exitosa (una fila afectada indica éxito)
+            return filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+            return false;
+        }
+    }
+
+    public int obtenerDescuentoPorNit(String nit) {
+        // Sentencia SQL para obtener el descuento de una tarjeta por NIT
+        String sql = "SELECT Descuento FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
+
+        try {
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setString(1, nit);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("Descuento");
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+        }
+
+        return 0; // Retornar 0 en caso de error o si no se encuentra la tarjeta
+    }
+
+    public void actualizarPuntosTarjeta(String nit, int puntosASumar) {
+        // Sentencia SQL para actualizar los puntos de una tarjeta por NIT
+        String sql = "UPDATE descuentos.Tarjeta SET Puntos = Puntos + ? WHERE Nit_Cliente = ?";
+
+        try {
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setInt(1, puntosASumar);
+            preparedStatement.setString(2, nit);
+
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+        }
+    }
+
+    public int obtenerPuntosTarjeta(String nit) {
+        // Sentencia SQL para obtener los puntos de una tarjeta por NIT
+        String sql = "SELECT Puntos FROM descuentos.Tarjeta WHERE Nit_Cliente = ?";
+
+        try {
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setString(1, nit);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("Puntos");
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+        }
+
+        return 0; // Retornar 0 en caso de error o si no se encuentra la tarjeta
+    }
+    public void sumarIngresosSucursal(String codigoSucursal, BigDecimal nuevosIngresos) {
+        // Sentencia SQL para sumar los nuevos ingresos a la sucursal
+        String sqlSumarIngresos = "UPDATE admin.Sucursal SET Ingresos = Ingresos + ? WHERE Codigo = ?";
+
+        try {
+            // Actualizar los ingresos en la base de datos
+            PreparedStatement preparedStatement = conexion.prepareStatement(sqlSumarIngresos);
+            preparedStatement.setBigDecimal(1, nuevosIngresos);
+            preparedStatement.setString(2, codigoSucursal);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según tus necesidades
+        }
     }
 
 }
